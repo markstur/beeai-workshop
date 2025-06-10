@@ -12,7 +12,11 @@ In this lab, we'll run our TicketWorkflow that we created in Lab 2 in the BeeAI 
 
 ### 1. Install BeeAI Platform
 
-Install BeeAI platform using the [installation instructions in the documentation](https://docs.beeai.dev/introduction/installation). Don't forget to run `beeai platform start` to start the platform prior to running the examples.
+Install BeeAI platform using the [installation instructions in the documentation](https://docs.beeai.dev/introduction/installation). Be sure to follow all 3 parts:
+
+* Installation
+* LLM provider configuration
+* Verify your installation
 
 Already installed BeeAI in the past? Be sure to update it to the latest version according to the instructions in the documentation.
 
@@ -40,8 +44,6 @@ uv run src/ticket_workflow_agent.py
     If you take a look at the code you will notice that there are 3 ACP agents in this `ticket_workflow_agent.py` file. The main agent, named "TicketWorkflow", orchestrates the run of the `ticket_triage_agent` and `ticket_response_agent` sequentially. Pay special attention to the metadata in the `@server.agent` decorator. The UI type informs the platform how the end user should interact with the agent. If the agent doesn't have UI metadata defined, it will not be visible in the platform.
 
 ### 5. Launch the BeeAI UI
-
-You should have already installed, started, and set up your LLM provider in the BeeAI Platform by following the Workshop Specific Requirements section of the Pre-Work. If you have not, please go back and follow them before proceeding.
 
 In your terminal, run:
 
