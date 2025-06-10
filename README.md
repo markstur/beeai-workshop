@@ -26,17 +26,19 @@ Running into issues? We're here to help! If you encounter any problems while wor
 The best way to get help is by creating a GitHub issue. This helps us track problems and allows the community to benefit from solutions. When creating an issue, please include:
 
 **Required Information:**
+
 - **Workshop Name**: Which specific workshop you were working on
 - **Step/Section**: Where in the workshop the issue occurred
 - **Expected Behavior**: What you expected to happen
 - **Actual Behavior**: What actually happened
 - **Error Messages**: Any error messages you received (copy/paste the full text)
-- **Environment Details**: 
+- **Environment Details**:
   - Operating system (Windows, macOS, Linux)
   - Browser version (if applicable)
   - Any relevant software versions
 
 **Optional but Helpful:**
+
 - Screenshots of the issue
 - Steps you've already tried to resolve the problem
 - Any additional context that might be relevant
