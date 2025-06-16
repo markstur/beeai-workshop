@@ -22,7 +22,9 @@ logo: images/ibm-blue-background.png
 
 #### API Key
 
-- [OpenAI](https://platform.openai.com/api-keys) API key (paid) or [Groq](https://console.groq.com/keys) API key (free)
+- [openrouter](https://openrouter.ai/) (free)
+- [OpenAI](https://platform.openai.com/api-keys) (paid)
+- [Groq](https://console.groq.com/keys) (free/limited)
 
 ## Workshop Specific Requirements
 
@@ -49,11 +51,11 @@ logo: images/ibm-blue-background.png
 
     **Alternative:** You can also open VS Code first, then use "File > Open Folder" to navigate to and select the `beeai-workshop/intro_acp_beeai` folder.
 
-3. Create a .env file based on the env.template file at the intro_acp_beeai directory level. Uncomment either the OpenAI or Groq provider config and add your own api key.
+3. Create a .env file based on the env.template file at the intro_acp_beeai directory level. Uncomment one of the provider configs and add your own api key.
 
     ```shell
     cp env.template .env
     ```
 
     !!! note
-        For OpenAI you just need the API Key, for Groq you need to uncomment all 3 environment variables but only need to modify the API Key.
+        For OpenAI you just need the API Key, for OpenRouter or Groq you need to uncomment all 3 environment variables but only need to modify the API Key.
