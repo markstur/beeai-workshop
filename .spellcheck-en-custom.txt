@@ -11,6 +11,7 @@ CTRL
 colab
 Colab
 config
+configs
 Coreutils
 csv
 dataframe
@@ -43,6 +44,7 @@ Milvus
 ollama
 Ollama
 OPENAI
+openrouter
 PID
 png
 pre
