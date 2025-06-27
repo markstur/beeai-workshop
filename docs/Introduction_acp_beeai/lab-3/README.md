@@ -14,11 +14,34 @@ In this lab, we'll run our TicketWorkflow that we created in Lab 2 in the BeeAI 
 
 Install BeeAI platform using the [installation instructions in the documentation](https://docs.beeai.dev/introduction/installation). Be sure to complete all parts of installation and setup:
 
-1. Install uv
+!!! insight
+    Be sure to install a version that was tested with the workshop with this syntax `uv tool install beeai-cli==<version>`.
+
+1. Install uv (part of pre-work section)
+
 2. Install BeeAI
+
+    ```shell
+    uv tool install beeai-cli==0.2.12
+    ```
+
 3. Start the BeeAI platform
+
+    ```shell
+    beeai platform start
+    ```
+
 4. Configure an LLM provider
+
+    ```shell
+    beeai env setup
+    ```
+
 5. Check that everything works
+
+    ```shell
+    beeai run chat Hi!
+    ```
 
 Already installed BeeAI in the past? Be sure to update it to the latest version according to the instructions in the documentation.
 
