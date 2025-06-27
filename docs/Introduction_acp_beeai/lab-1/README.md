@@ -53,7 +53,7 @@ Use your browser to invoke the `ticket_triage_agent` using the FastAPI interface
 
 Under `Responses`:
 
-- Under `Response body`, the result shows just one agent named `ticket_triage_agent` (the second agent is not running on port 8000).
+- Under `Response body`, the result shows just one agent named `ticket_triage_agent`.
 - Under `Curl`, you get the curl command that you can run in a terminal (instead of using the UI)
 
 **Try the curl command:** In a new terminal window, run:
