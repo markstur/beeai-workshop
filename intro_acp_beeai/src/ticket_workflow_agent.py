@@ -7,8 +7,9 @@ from pydantic_ai import Agent
 from pydantic_ai.models.openai import OpenAIModel
 from pydantic_ai.providers.openai import OpenAIProvider
 #ACP SDK
-from acp_sdk import Metadata
+from acp_sdk import Annotations, Metadata, PlatformUIAnnotation
 from acp_sdk.models import Message, MessagePart
+from acp_sdk.models.platform import PlatformUIType
 from acp_sdk.server import RunYield, RunYieldResume, Server, Context
 from collections.abc import AsyncGenerator
 from acp_sdk.client import Client
@@ -58,7 +59,17 @@ class TicketClassifierOutput(BaseModel):
 
 #make Agents ACP Compatible
 
-@server.agent(name="ticket_triage_agent", metadata=Metadata(ui={"type": "hands-off"}))
+@server.agent(
+    name="ticket_triage_agent",
+    metadata=Metadata(
+        annotations=Annotations(
+            beeai_ui=PlatformUIAnnotation(
+                ui_type=PlatformUIType.HANDSOFF,
+                user_greeting="How can I help you?",
+            ),
+        ),
+    ),
+)
 async def ticket_triage_agent(input: list[Message]) -> AsyncGenerator[RunYield, RunYieldResume]:
     """An agent that classifies customer support tickets."""
     user_prompt = flatten_messages(input[-1:])
@@ -77,7 +88,17 @@ async def ticket_triage_agent(input: list[Message]) -> AsyncGenerator[RunYield, 
     yield str(response.object)
 
 
-@server.agent(name="ticket_response_agent", metadata=Metadata(ui={"type": "hands-off"}))
+@server.agent(
+    name="ticket_response_agent",
+    metadata=Metadata(
+        annotations=Annotations(
+            beeai_ui=PlatformUIAnnotation(
+                ui_type=PlatformUIType.HANDSOFF,
+                user_greeting="Enter triaged ticket details to get a response.",
+            ),
+        ),
+    ),
+)
 async def ticket_response_agent(input: list[Message]) -> AsyncGenerator[RunYield, RunYieldResume]:
     """
     An agent that responds to customer support tickets .
@@ -111,7 +132,18 @@ async def run_agent(agent: str, input: str) -> list[Message]:
         )
     return run.output
 
-@server.agent(name="TicketWorkflow", metadata=Metadata(ui={"type": "hands-off"}))
+
+@server.agent(
+    name="TicketWorkflow",
+    metadata=Metadata(
+        annotations=Annotations(
+            beeai_ui=PlatformUIAnnotation(
+                ui_type=PlatformUIType.HANDSOFF,
+                user_greeting="How can I help you?",
+            ),
+        ),
+    ),
+)
 async def main_agent(input: list[Message], context: Context) -> AsyncGenerator:
     """
     Main agent that orchestrates the ticket triage and response workflow.

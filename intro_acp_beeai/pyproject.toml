@@ -5,7 +5,7 @@ description = "An introduction to ACP and the BeeAI Platform using a ticket tria
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "acp-sdk==0.10.1",
-    "beeai-framework==0.1.23",
+    "acp-sdk==1.0.0",
+    "beeai-framework==0.1.29",
     "pydantic-ai==0.2.14",
 ]

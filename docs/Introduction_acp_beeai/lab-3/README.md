@@ -22,7 +22,7 @@ Install BeeAI platform using the [installation instructions in the documentation
 2. Install BeeAI
 
     ```shell
-    uv tool install beeai-cli==0.2.12
+    uv tool install beeai-cli==0.2.14
     ```
 
 3. Start the BeeAI platform
