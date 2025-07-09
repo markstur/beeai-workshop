@@ -78,6 +78,7 @@ curl -N -X POST http://localhost:8000/runs \
      ```
 
    - Remove the **"content_url"** line
+   - Remove the **"metadata"** line
    - Find **"mode"** and change the value from "sync" to **"stream"**
 
 5. Click `Execute`
