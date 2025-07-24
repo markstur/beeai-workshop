@@ -86,7 +86,7 @@ The notebook should use the Python environment from your `.venv`. If it’s not 
   - Choose `Enter interpreter path`
   - Browse to:
 
-    ```
+    ```text
     beeai-tavily-redis/.venv/bin/python
     ```
 
@@ -101,4 +101,3 @@ Run the following Jupyter notebook cell by cell:
 ```bash
 redis_vector_db.ipynb
 ```
-

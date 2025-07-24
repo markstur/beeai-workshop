@@ -39,9 +39,11 @@ We recommend using [`uv`](https://github.com/astral-sh/uv) as your Python packag
 ## API Keys
 
 ### Tavily (Required)
+
 - Go to [Tavily](https://app.tavily.com/home) and sign up for a free API key.
 
 ### OpenAI (Optional)
+
 - Only needed if you do **not** plan to run a model locally with Ollama.
 - [Get an OpenAI API Key](https://platform.openai.com/account/api-keys)
 

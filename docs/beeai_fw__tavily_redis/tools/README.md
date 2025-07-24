@@ -26,13 +26,13 @@ Each tool is implemented interactively. You’ll fill in missing logic and test 
 
 Navigate to the following file:
 
-```
+```text
 beeai-tavily-redis/tavily_mcp_tool.py
 ```
 
 Some parts of the implementation are left incomplete. Follow the in-line comments to fill them in. If you need help, check the solution:
 
-```
+```text
 solutions/tavily_mcp_tool.py
 ```
 
@@ -72,13 +72,13 @@ uv run tavily_mcp_tool.py
 
 Navigate to:
 
-```
+```text
 beeai-tavily-redis/redis_retriever.py
 ```
 
 Some sections of the code are incomplete. Fill in the missing parts as instructed by comments in the file. You can check your work using the solution file:
 
-```
+```text
 solutions/redis_retriever.py
 ```
 

@@ -15,7 +15,7 @@ logo: images/BeeAI-Logo-White.png
 
 Navigate to the following file:
 
-```
+```text
 beeai-tavily-redis/agent.py
 ```
 
@@ -36,6 +36,7 @@ If you are using **OpenAI**, your `.env` file must include your API key:
 ```env
 OPENAI_API_KEY=your-key-here
 ```
+
 - Be sure to **add the tools you implemented earlier** (Tavily MCP Tool and Redis Retriever).
 - You can read more about tool usage in the BeeAI Framework here:  
   👉 [Tool Usage Documentation](https://framework.beeai.dev/modules/tools)
