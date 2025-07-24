@@ -8,7 +8,7 @@ logo: images/BeeAI-Logo-White.png
 # Tool Development: Tavily Internet Search + Redis RAG
 
 > ⚠️ **Before you begin:**  
-> Make sure you have completed the [Prework](beeai-workshop-prework.md) and [Setup](setup.md) instructions.  
+> Make sure you have completed the [Prework](../pre-work/README.md) and [Setup](../setup/README.md) instructions.  
 > The tools rely on environment configuration, the redis stack to be running, dependencies, and your `.env` file.
 
 In this section of the workshop, you'll build two essential tools that power your company assistant:

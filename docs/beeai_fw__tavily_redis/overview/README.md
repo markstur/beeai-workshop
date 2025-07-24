@@ -30,10 +30,10 @@ You’ll create a company analysis agent with access to three key tools:
 
 To ensure a smooth experience, follow the steps in this order:
 
-1. ✅ [Prework](beeai-workshop-prework.md) – Install dependencies and gather API keys
-2. 🔧 [Setup](setup.md) – Get the code and environment ready
-3. 🛠️ [Create Tools](tool-dev-combined.md) – Build the Tavily and Redis RAG tools
-4. 🤖 [Create the Agent](agent-run.md) – Assemble and run your company analysis assistant
+1. ✅ [Prework](../pre-work/README.md) – Install dependencies and gather API keys
+2. 🔧 [Setup](../setup/README.md) – Get the code and environment ready
+3. 🛠️ [Create Tools](../tools/README.md) – Build the Tavily and Redis RAG tools
+4. 🤖 [Create the Agent](../agent/README.md) – Assemble and run your company analysis assistant
 
 Each section includes interactive coding activities where you’ll fill in missing code and run the files to test your progress.
 

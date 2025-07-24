@@ -6,7 +6,7 @@ logo: images/BeeAI-Logo-White.png
 # Running the Agent
 
 > ⚠️ **Before you begin:**  
-> Make sure you’ve completed the [Prework](beeai-workshop-prework.md) and [Setup](setup.md) sections.  
+> Make sure you’ve completed the [Prework](../pre-work/README.md) and [Setup](../setup/README.md) sections.  
 > Your `.env` must include either an **OpenAI API key** or your **local Ollama model** must be running.
 
 ---
