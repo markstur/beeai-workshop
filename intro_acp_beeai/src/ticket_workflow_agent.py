@@ -149,9 +149,13 @@ async def main_agent(input: list[Message], context: Context) -> AsyncGenerator:
     Main agent that orchestrates the ticket triage and response workflow.
     """
     ticket_triage_response = await run_agent("ticket_triage_agent", str(input))
-    ticket_response_to_user = await run_agent("ticket_response_agent", str(ticket_triage_response))
-
+    if not ticket_triage_response:
+        raise Exception("Empty response from ticket triage agent")
     yield str(ticket_triage_response[0])
+
+    ticket_response_to_user = await run_agent("ticket_response_agent", str(ticket_triage_response))
+    if not ticket_response_to_user:
+        raise Exception("Empty response from ticket response agent")
     yield str(ticket_response_to_user[0])
 
 #Run these agents
