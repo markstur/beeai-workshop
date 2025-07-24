@@ -1,6 +1,6 @@
 ---
 title: Setup Instructions
-description: Setup the repo and pre-populate the vectore store
+description: Setup the repo and pre-populate the vector store
 logo: images/BeeAI-Logo-White.png
 ---
 
