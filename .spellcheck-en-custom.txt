@@ -50,8 +50,10 @@ png
 pre
 Pre
 pretrained
+Prework
 Pydantic
 PydanticAI
+redis
 repo
 repos
 runtime
@@ -59,6 +61,7 @@ scalability
 SDK
 summarization
 Summarization
+Tavily
 TBD
 tbody
 th
@@ -75,6 +78,7 @@ UI
 uncomment
 url
 uv
+virtualenv
 WSL
 venv
 Zhao

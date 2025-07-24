@@ -39,6 +39,7 @@ jobs:
             fonts.gstatic.com:443
             github.com:443
             objects.githubusercontent.com:443
+            release-assets.githubusercontent.com:443
             pypi.org:443
           cache-key: ${{ github.job }}-${{ github.run_id }}-${{ github.ref }}
 
@@ -50,7 +51,7 @@ jobs:
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
 
       - name: 'Setup uv'
-        uses: astral-sh/setup-uv@f0ec1fc3b38f5e7cd731bb6ce540c5af426746bb # v6.1.0
+        uses: astral-sh/setup-uv@e92bafb6253dcd438e0484186d7669ea7a8ca1cc # v6.4.3
         with:
           python-version: 3.12
           enable-cache: false
