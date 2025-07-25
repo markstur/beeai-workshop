@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 # Set settings (enviorment variables)
 class Settings(BaseSettings):
     TAVILY_API_KEY: str = Field(alias='TAVILY_API_KEY')
-    model_config = SettingsConfigDict(env_file='.env')
+    model_config = SettingsConfigDict(env_file='../.env')
 
 # Create a helper function to parse the Tavily Result in Structured Format and returns the urls, text results, and number of results
 def parse_search_results(text_content: str, query: str) -> Dict[str, Any]:

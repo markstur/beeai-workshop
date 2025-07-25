@@ -36,7 +36,7 @@ print(f"Changed to: {os.getcwd()}")
 
 class Settings(BaseSettings):
     TAVILY_API_KEY: str = Field(alias='TAVILY_API_KEY')
-    model_config = SettingsConfigDict(env_file='.env', extra='ignore')
+    model_config = SettingsConfigDict(env_file='../.env', extra='ignore')
 
 # =============================================================================
 # SEARCH RESULT PARSING UTILITIES
