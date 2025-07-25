@@ -27,7 +27,7 @@ class RAGRetriever:
 
         # Configure and init the vector store with our embeddings model
         config = RedisConfig(
-            index_name="test_guidance",
+            index_name="internal_docs",
             redis_url=REDIS_URL,
             metadata_schema=[
                 {"name": "document", "type": "tag"},
@@ -40,10 +40,10 @@ class RAGRetriever:
 # INPUT/OUTPUT DATA MODELS
 # =============================================================================
 # Pydantic models that define the structure and validation for tool inputs and outputs.
-#Important for compatibility with LLMs like those from OpenAI.
+# Important for compatibility with LLMs like those from OpenAI.
 
-class GetDocumentInput(BaseModel):
-    query: str = Field(..., description="The query to search for in company guidance documents.")
+class DocSearchInput(BaseModel):
+    query: str = Field(..., description="The query to search for in company internal documents.")
 
 # Data model for individual search results with content, metadata, and similarity score
 class RagToolResult(BaseModel):
@@ -66,16 +66,17 @@ class RagToolOutput(ToolOutput):
 # =============================================================================
 # MAIN RAG TOOL IMPLEMENTATION
 # =============================================================================
-# The core tool function that performs semantic search and returns relevant documents
+# The core tool function that performs semantic search and returns relevant document sections
 
 # Use the input_schema argument to tell the @tool decorator to expect structured input.
-# The function now takes a single argument of type GetDocumentInput (the Pydantic model).
+# The function now takes a single argument of type str.
+# The function result format uses the RagToolOutput schema.
 
-#Using the BeeAI framework there are two ways to create a custom tool. 
-#You can extend the base tool class (like the Tavily Tool does) or you can use a tool decorator with your required inputs
-#[INSERT YOUR CODE HERE]
-def get_document(query: str) -> RagToolOutput:
-    """Tool that answers a query about company policy using company guidance documents. Returns up to top_n results above the similarity threshold."""
+# Using the BeeAI framework there are two ways to create a custom tool. 
+# You can extend the base tool class (like the Tavily Tool does) or you can use a tool decorator with your required inputs
+# [INSERT YOUR CODE HERE]
+def internal_document_search(query: str) -> RagToolOutput:
+    """Tool that answers a query about company policy using company internal documents. Returns up to top_n results below the similarity distance threshold."""
     retriever = RAGRetriever()
     results = retriever.vector_store.similarity_search_with_score(
         query, k=4, distance_threshold=0.6

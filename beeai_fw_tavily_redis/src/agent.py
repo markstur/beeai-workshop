@@ -1,4 +1,4 @@
-from redis_retriever import get_document
+from redis_retriever import internal_document_search
 from beeai_framework.agents.experimental import RequirementAgent
 from beeai_framework.memory import UnconstrainedMemory
 from beeai_framework.backend.chat import ChatModel
@@ -23,18 +23,18 @@ system_prompt = """You are a **Company Analysis Assistant** that helps employees
 - **Purpose**: Helps you think through the best course of action before answering a question.
 - **Usage Guidance**: You perform better when you use this tool first. Use it to plan your reasoning and determine which other tools to use next.
 
-### Get_Document
+### internal_document_search
 - **Purpose**: Allows you to search internal private documents that are not otherwise accessible.
 - **Usage Guidance**: Use this tool to supplement or validate information you already know or have found elsewhere.
-- **Priority**: Information from `get_document` takes precedence over any information found using the Tavily tool.
+- **Priority**: Information from `internal_document_search` takes precedence over any information found using the Tavily tool.
 
 ### Tavily (Online Search)
 - **Purpose**: Enables you to find current and publicly available information from the internet.
-- **Usage Guidance**: If the information you need is **not found** in internal documents via `get_document`, you are **expected to use Tavily** to search the web.
-- **Caution**: Information found online may not always be reliable. Cross-check with `get_document` when possible.
+- **Usage Guidance**: If the information you need is **not found** in internal documents via `internal_document_search`, you are **expected to use Tavily** to search the web.
+- **Caution**: Information found online may not always be reliable. Cross-check with `internal_document_search` when possible.
 
 ## Tool Usage Logic
-If internal documents do not provide the necessary information to answer the question, you **must** follow up with a Tavily search to ensure full coverage. Do **not** stop at `get_document` if the response would be incomplete.
+If internal documents do not provide the necessary information to answer the question, you **must** follow up with a Tavily search to ensure full coverage. Do **not** stop at `internal_document_search` if the response would be incomplete.
 
 ## Output Expectations
 
@@ -68,7 +68,7 @@ async def main():
         #Play with the conditional requirements! See how that affects the behavior of the agent.
         requirements=[
             #[INSERT YOUR CODE HEARE]
-            # ConditionalRequirement(get_document, min_invocations=1),
+            # ConditionalRequirement(internal_document_search, min_invocations=1),
             ConditionalRequirement(ThinkTool, force_at_step=1),
             # ConditionalRequirement(Tavily, min_invocations=1)
             ],
