@@ -129,8 +129,8 @@ class TavilySearch:
     
     async def search(
         self,
-        #what is the main input that the model needs to provide? Hint: look down in the search arguements dictionary and see what's missing.
-        #[UNCOMMENT AND INSERT YOUR CODE HERE]
+        # What is the main input that the model needs to provide? Hint: Look down in the search arguments dictionary and see what's missing.
+        # [UNCOMMENT AND INSERT YOUR CODE HERE]
         max_results: int = 5,
         search_depth: str = "basic",
         include_answer: bool = False,
@@ -233,8 +233,8 @@ class TavilyToolOutput(BaseModel):
 
 class Tavily(Tool[TavilyToolInput, ToolRunOptions, JSONToolOutput[TavilyToolOutput]]):
     name = "TavilyTool"
-    #Enter your description of the tavily tool that is akin to "Search the internet for current information that you might not already know".
-    #description = "[UNCOMMENT AND INSERT YOUR CODE HERE]"
+    # Enter your description of the Tavily tool that is akin to "Search the internet for current information that you might not already know".
+    # description = "[UNCOMMENT AND INSERT YOUR CODE HERE]"
     input_schema = TavilyToolInput
 
     def __init__(self, options: dict[str, Any] | None = None) -> None:
