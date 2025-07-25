@@ -61,7 +61,7 @@ uv sync
 Run or debug the Tavily tool independently to test its functionality:
 
 ```bash
-uv run tavily_mcp_tool.py
+uv run src/tavily_mcp_tool.py
 ```
 
 ---
@@ -97,7 +97,7 @@ uv sync
 Run or debug your Redis retriever tool independently:
 
 ```bash
-uv run redis_retriever.py
+uv run src/redis_retriever.py
 ```
 
 This ensures the tool works as expected before integrating it into your BeeAI Agent!
