@@ -50,17 +50,17 @@ cp env.template .env
 
 ## Install Project Dependencies
 
-1. **Activate the virtual environment created by `uv`:**
+1. **Install all required dependencies:**
 
-```bash
-source .venv/bin/activate
-```
+    ```bash
+    uv sync
+    ```
 
-2. **Install all required dependencies:**
+2. **Activate the virtual environment created by `uv`:**
 
-```bash
-uv sync
-```
+    ```bash
+    source .venv/bin/activate
+    ```
 
 This ensures you have the correct versions of all packages used in the workshop, installed in the correct environment.
 
