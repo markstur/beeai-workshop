@@ -3,7 +3,7 @@ name = "intro-acp-beeai"
 version = "0.1.0"
 description = "An introduction to ACP and the BeeAI Platform using a ticket triage scenario."
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.12"
 dependencies = [
     "acp-sdk==1.0.0",
     "beeai-framework==0.1.29",
