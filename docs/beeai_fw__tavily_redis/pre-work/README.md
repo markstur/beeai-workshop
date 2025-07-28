@@ -17,11 +17,11 @@ Please complete the following setup steps **before** the workshop.
 
 You may use any IDE, but this workshop assumes you're using **Visual Studio Code (VS Code)**.
 
-- [Download Visual Studio Code](https://code.visualstudio.com/)
-- Install the **Python and Jupyter extensions** from the Extensions Marketplace:
-    - Open the Extensions view (`Ctrl+Shift+X` or `Cmd+Shift+X`)
-      1. Search for “Python” by Microsoft and install it
-      2. Search for "Jupyter" by Microsoft and install it
+- [Download Visual Studio Code (VS Code)](https://code.visualstudio.com/)
+- Install the VS Code **Python and Jupyter extensions** from the Extensions Marketplace:
+    1. Open the Extensions view in VS Code (`Ctrl+Shift+X` or `Cmd+Shift+X`)
+    2. Search for “Python” by Microsoft and install it
+    3. Search for "Jupyter" by Microsoft and install it
 
 ---
 
