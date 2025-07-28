@@ -27,7 +27,7 @@ Each tool is implemented interactively. You’ll fill in missing logic and test 
 1. **Navigate to the correct directory:**
 
     ```bash
-    cd beeai-workshop/beeai-tavily-redis
+    cd beeai-workshop/beeai_fw_tavily_redis
     ```
 
 2. **Install dependencies:**
@@ -67,7 +67,7 @@ Each tool is implemented interactively. You’ll fill in missing logic and test 
 - If you've just completed Part 1, your environment should still be active. Otherwise:
 
     ```bash
-    cd beeai-workshop/beeai-tavily-redis
+    cd beeai-workshop/beeai_fw_tavily_redis
     uv sync
     ```
 

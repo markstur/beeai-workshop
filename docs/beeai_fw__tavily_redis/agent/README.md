@@ -16,7 +16,7 @@ logo: images/BeeAI-Logo-White.png
 1. Navigate to the working directory:
 
     ```bash
-    cd beeai-workshop/beeai-tavily-redis
+    cd beeai-workshop/beeai_fw_tavily_redis
     ```
 
 2. Sync dependencies:
