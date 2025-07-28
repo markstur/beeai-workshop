@@ -12,57 +12,50 @@ Explore BeeAI through hands-on workshops that demonstrate how BeeAI's integrated
 
 | Workshop                                                                   | Description                                                                              |
 |:---------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------|
-| [Introduction to ACP and BeeAI](Introduction_acp_beeai/pre-work/README.md) | Walk through a practical ticket triage scenario to get started with the BeeAI ecosystem. |
+| [Introduction to ACP and BeeAI](Introduction_acp_beeai/pre-work/README.md) — *Update coming soon* | Walk through a practical ticket triage scenario to get started with the BeeAI ecosystem. |
+| [Company Analysis Agent with the BeeAI Framework](beeai_fw__tavily_redis/pre-work/README.md)                            | Coming soon                                                                              |
+| *Additional workshops coming soon!*                                        | -                                                                                       |
 
 ## The BeeAI Ecosystem
 
 BeeAI is a comprehensive platform for building, deploying, and managing multi-agent AI systems. Whether you're a developer creating sophisticated agent workflows or a business user leveraging shared agents, BeeAI provides the tools and infrastructure to make AI agents more accessible, interoperable, and production-ready.
 
-BeeAI consists of three integrated components that work together to streamline the entire agent life cycle:
+BeeAI consists of two integrated components that work together to streamline the entire agent life cycle:
 
 ### 1. **Build** with the BeeAI Framework
 
 Build multi-agent systems leveraging agents from any framework that meet your requirements.
 
-#### For Developers:
+#### For Developers
 
-* Build multi-agent systems that meet custom requirements while leveraging production-grade, out-of-the-box components
-* Run and test custom agents in a consistent development environment
-* Leverage templates and examples to accelerate development
+- Build multi-agent systems that meet custom requirements while leveraging production-grade, out-of-the-box components
+- Run and test custom agents in a consistent development environment
+- Leverage templates and examples to accelerate development
 
-### 2. **Collaborate** with Agent Communication Protocol (ACP)
+### 2. **Configure, Deploy, Run, Share, and Govern** in the BeeAI Platform
 
-Enable seamless interoperability between agents built in different frameworks through standardized communication.
+Make your agents easy to share and run with others no matter what agent framework they were built on!
 
-ACP is an HTTP REST-based protocol built on client-server architecture that standardizes how agents communicate (their inputs and outputs). This enables agents built in any framework to collaborate with one another, forming the foundation for agent collaboration in the BeeAI Platform.
+#### For Developers
 
-### 3. **Configure, Deploy, Run, Share, and Govern** in the BeeAI Platform
+- Configure agents to leverage ready-made UIs provided by the platform
+- Specify recommended models for optimal agent performance
+- Easily observe agent performance with real end users
+- Maintain visibility into agent usage and behavior through comprehensive telemetry, access controls, and audit trails
+- Locally run your agents with a UI or self host the platform to enable a hosted experience for your users
 
-Make the deployment process frictionless from development to production with comprehensive governance capabilities.
+#### For Business Users
 
-#### For Developers:
-
-* Configure agents to leverage ready-made UIs provided by the platform
-* Specify recommended models for optimal agent performance
-* Easily set up environment and authentication configuration for end users
-* Seamless pathway from local development to shareable deployments
-* Share agents with specific people rather than entire organizations
-* Easily observe agent performance with real end users
-* Monitor user feedback to continuously improve agents
-* Maintain visibility into agent usage and behavior through comprehensive telemetry, access controls, and audit trails
-
-#### For Business Users:
-
-* Experience consistent UI across different agents shared with you
-* Use agents successfully without understanding their internal workings
+- Experience consistent UI across different agents shared with you
+- Use agents successfully without understanding their internal workings
 
 ## Finished with the Workshops and Ready to Take It to the Next Level?
 
-* Check out our documentation for the [BeeAI Framework](https://github.com/i-am-bee/beeai-framework), [ACP](https://agentcommunicationprotocol.dev/) protocol, and [BeeAI Platform](https://docs.beeai.dev/introduction/welcome)
-* Dive into the example repos for the [BeeAI Framework](https://github.com/i-am-bee/beeai-framework), [ACP](https://github.com/i-am-bee/acp) protocol, and [BeeAI Platform](https://github.com/i-am-bee/beeai-platform)
-* Stuck? Join our [Discord](https://discord.com/invite/NradeA6ZNF) server for quick troubleshooting
+- Check out our documentation for the [BeeAI Framework](https://github.com/i-am-bee/beeai-framework) and [BeeAI Platform](https://docs.beeai.dev/introduction/welcome)
+- Dive into the example repos for the [BeeAI Framework](https://github.com/i-am-bee/beeai-framework) and [BeeAI Platform](https://github.com/i-am-bee/beeai-platform)
+- Stuck? Join our [Discord](https://discord.com/invite/NradeA6ZNF) server for quick troubleshooting
 
 ## Ready to Contribute?
 
-* Get involved in the conversation on our GitHub Discussions
-* Pick up a help wanted issue!
+- Get involved in the conversation on our GitHub Discussions
+- Pick up a help wanted issue!
