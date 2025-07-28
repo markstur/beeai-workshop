@@ -13,33 +13,33 @@ logo: images/BeeAI-Logo-White.png
 
 ## Step 1: Prepare to Run the Agent
 
-Navigate to the following file:
+1. Navigate to the following file:
 
-```text
-beeai-tavily-redis/agent.py
-```
+    ```text
+    beeai-tavily-redis/agent.py
+    ```
 
-This file contains **fill-in-the-blank** sections. Follow the in-line comments to complete the logic.
+2. This file contains **fill-in-the-blank** sections. Follow the in-line comments to complete the logic.
 
-- **Uncomment the language model** you intend to use:
-  - Use `OpenAI` if your API key is in `.env`
-  - Use `Ollama` if you're running `granite3.3:8b` locally
+    - **Uncomment the language model** you intend to use:
+        - Use `OpenAI` if your API key is in `.env`
+        - Use `Ollama` if you're running `granite3.3:8b` locally
 
-If you are using **Ollama**:
+    If you are using **Ollama**:
 
-```bash
-ollama run granite3.3:8b
-```
+    ```bash
+    ollama run granite3.3:8b
+    ```
 
-If you are using **OpenAI**, your `.env` file must include your API key:
+    If you are using **OpenAI**, your `.env` file must include your API key:
 
-```env
-OPENAI_API_KEY=your-key-here
-```
+    ```env
+    OPENAI_API_KEY=your-key-here
+    ```
 
-- Be sure to **add the tools you implemented earlier** (Tavily MCP Tool and Redis Retriever).
-- You can read more about tool usage in the BeeAI Framework here:  
-  👉 [Tool Usage Documentation](https://framework.beeai.dev/modules/tools)
+    - Be sure to **add the tools you implemented earlier** (Tavily MCP Tool and Redis Retriever).
+    - You can read more about tool usage in the BeeAI Framework here:  
+        👉 [Tool Usage Documentation](https://framework.beeai.dev/modules/tools)
 
 ---
 
@@ -62,21 +62,21 @@ Also, explore the `conditional_requirements` section — this allows you to cont
 
 1. Navigate to the working directory:
 
-```bash
-cd beeai-workshop/beeai-tavily-redis
-```
+    ```bash
+    cd beeai-workshop/beeai-tavily-redis
+    ```
 
 2. Activate your virtual environment:
 
-```bash
-source .venv/bin/activate
-```
+    ```bash
+    source .venv/bin/activate
+    ```
 
 3. Sync dependencies:
 
-```bash
-uv sync
-```
+    ```bash
+    uv sync
+    ```
 
 ---
 

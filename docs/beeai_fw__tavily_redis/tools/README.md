@@ -24,45 +24,39 @@ Each tool is implemented interactively. You’ll fill in missing logic and test 
 
 ### Step 1: Locate the Tool File
 
-Navigate to the following file:
+1. Navigate to the following file:
 
-```text
-beeai-tavily-redis/tavily_mcp_tool.py
-```
+    ```text
+    beeai-tavily-redis/tavily_mcp_tool.py
+    ```
 
-Some parts of the implementation are left incomplete. Follow the in-line comments to fill them in. If you need help, check the solution:
+2. Some parts of the implementation are left incomplete. Follow the in-line comments to fill them in. If you need help, check the solution:
 
-```text
-solutions/tavily_mcp_tool.py
-```
+    ```text
+    solutions/tavily_mcp_tool.py
+    ```
 
 ### Step 2: Verify Your Environment
 
 1. **Navigate to the correct directory:**
 
-```bash
-cd beeai-workshop/beeai-tavily-redis
-```
+    ```bash
+    cd beeai-workshop/beeai-tavily-redis
+    ```
 
-2. **Activate your virtual environment:**
+2. **Install dependencies:**
 
-```bash
-source .venv/bin/activate
-```
-
-3. **Install dependencies:**
-
-```bash
-uv sync
-```
+    ```bash
+    uv sync
+    ```
 
 ### Step 3: Run the Tool
 
-Run or debug the Tavily tool independently to test its functionality:
+1. Run or debug the Tavily tool independently to test its functionality:
 
-```bash
-uv run src/tavily_mcp_tool.py
-```
+    ```bash
+    uv run src/tavily_mcp_tool.py
+    ```
 
 ---
 
@@ -70,34 +64,33 @@ uv run src/tavily_mcp_tool.py
 
 ### Step 1: Locate the Tool File
 
-Navigate to:
+1. Navigate to:
 
-```text
-beeai-tavily-redis/redis_retriever.py
-```
+    ```text
+    beeai-tavily-redis/redis_retriever.py
+    ```
 
-Some sections of the code are incomplete. Fill in the missing parts as instructed by comments in the file. You can check your work using the solution file:
+2. Some sections of the code are incomplete. Fill in the missing parts as instructed by comments in the file. You can check your work using the solution file:
 
-```text
-solutions/redis_retriever.py
-```
+    ```text
+    solutions/redis_retriever.py
+    ```
 
 ### Step 2: Verify Your Environment
 
-If you've just completed Part 1, your environment should still be active. Otherwise:
+1. If you've just completed Part 1, your environment should still be active. Otherwise:
 
-```bash
-cd beeai-workshop/beeai-tavily-redis
-source .venv/bin/activate
-uv sync
-```
+    ```bash
+    cd beeai-workshop/beeai-tavily-redis
+    uv sync
+    ```
 
 ### Step 3: Run the Tool
 
-Run or debug your Redis retriever tool independently:
+1. Run or debug your Redis retriever tool independently:
 
-```bash
-uv run src/redis_retriever.py
-```
+    ```bash
+    uv run src/redis_retriever.py
+    ```
 
-This ensures the tool works as expected before integrating it into your BeeAI Agent!
+    This ensures the tool works as expected before integrating it into your BeeAI Agent!

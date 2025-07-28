@@ -70,34 +70,29 @@ This ensures you have the correct versions of all packages used in the workshop,
 
 To prepare your Redis vector database for Retrieval-Augmented Generation (RAG):
 
-1. **Activate the correct Python environment (if not already activated):**
+1. **Ensure the correct kernel is selected:**
 
-```bash
-source .venv/bin/activate
-```
+    The notebook should use the Python environment from your `.venv`. If it’s not available in the kernel list:
 
-2. **Ensure the correct kernel is selected:**
+    - Open the Command Palette in VS Code (`Cmd+Shift+P` or `Ctrl+Shift+P`)
+    - Select `Python: Select Interpreter`
+    - If your `.venv` is not listed, add it manually:
 
-The notebook should use the Python environment from your `.venv`. If it’s not available in the kernel list:
+        - Choose `Enter interpreter path`
+        - Browse to:
 
-- Open the Command Palette in VS Code (`Cmd+Shift+P` or `Ctrl+Shift+P`)
-- Select `Python: Select Interpreter`
-- If your `.venv` is not listed, add it manually:
-  - Choose `Enter interpreter path`
-  - Browse to:
+        ```text
+        beeai-tavily-redis/.venv/bin/python
+        ```
 
-    ```text
-    beeai-tavily-redis/.venv/bin/python
+        - Select that path to register and use it as the kernel
+
+    This ensures all required packages and dependencies are correctly loaded in the notebook environment.
+
+2. **Run the Jupyter notebook:**
+
+    Run the following Jupyter notebook cell by cell:
+
+    ```bash
+    redis_vector_db.ipynb
     ```
-
-  - Select that path to register and use it as the kernel
-
-This ensures all required packages and dependencies are correctly loaded in the notebook environment.
-
-3. **Run the Jupyter notebook:**
-
-Run the following Jupyter notebook cell by cell:
-
-```bash
-redis_vector_db.ipynb
-```
