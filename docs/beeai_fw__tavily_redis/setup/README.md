@@ -25,12 +25,12 @@ If you're not comfortable with Git, [download the ZIP](https://github.com/IBM/be
 Navigate to the specific workshop folder and open it in VS Code:
 
 ```bash
-cd beeai-workshop/[INSERT NAME]
+cd beeai-workshop/beeai_fw_tavily_redis
 code .
 ```
 
 **Important:**  
-Make sure to open the specific `[NAME]` folder in VS Code, not the entire `beeai-workshop` directory.  
+Make sure to open the specific `beeai_fw_tavily_redis` folder in VS Code, not the entire `beeai-workshop` directory.  
 This ensures proper project structure and dependencies are detected.
 
 Alternatively, you can open VS Code first and use `File > Open Folder` to navigate to and select the correct folder.
@@ -39,7 +39,7 @@ Alternatively, you can open VS Code first and use `File > Open Folder` to naviga
 
 ## Set Up Environment Variables
 
-Create a `.env` file based on the existing `env.template` at the `[INSERT NAME]` directory level.  
+Create a `.env` file based on the existing `env.template` at the `beeai_fw_tavily_redis` directory level.  
 Add your **Tavily** key and optionally your **OpenAI** key to this file.
 
 ```bash
@@ -82,7 +82,7 @@ To prepare your Redis vector database for Retrieval-Augmented Generation (RAG):
         - Browse to:
 
         ```text
-        beeai-tavily-redis/.venv/bin/python
+        beeai_fw_tavily_redis/.venv/bin/python
         ```
 
         - Select that path to register and use it as the kernel
@@ -93,6 +93,6 @@ To prepare your Redis vector database for Retrieval-Augmented Generation (RAG):
 
     Run the following Jupyter notebook cell by cell:
 
-    ```bash
-    redis_vector_db.ipynb
+    ```text
+    beeai_fw_tavily_redis/src/solutions/redis_vector_db.ipynb
     ```

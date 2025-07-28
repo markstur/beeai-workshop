@@ -19,9 +19,9 @@ You may use any IDE, but this workshop assumes you're using **Visual Studio Code
 
 - [Download Visual Studio Code](https://code.visualstudio.com/)
 - Install the **Python and Jupyter extensions** from the Extensions Marketplace:
-  - Open the Extensions view (`Ctrl+Shift+X` or `Cmd+Shift+X`)
-  - Search for “Python” by Microsoft and install it
-  - Search for "Jupyter" by Microsoft and install it
+    - Open the Extensions view (`Ctrl+Shift+X` or `Cmd+Shift+X`)
+      1. Search for “Python” by Microsoft and install it
+      2. Search for "Jupyter" by Microsoft and install it
 
 ---
 
@@ -68,7 +68,7 @@ To run models locally on your machine:
    ollama pull granite3.3:8b
    ```
 
-- Model link: [Granite 3.3:8b](https://ollama.com/library/granite3.3:8b)
+> Model link: [Granite 3.3:8b](https://ollama.com/library/granite3.3:8b)
 
 ---
 
