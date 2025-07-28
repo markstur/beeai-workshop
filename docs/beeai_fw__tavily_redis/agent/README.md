@@ -64,7 +64,7 @@ logo: images/BeeAI-Logo-White.png
 1. Read the `system_prompt` variable in the file.  
 It defines how the assistant should behave and respond to users.
 
-2. Add the custom `tools` that we built int he previous sections to the agent to enable it with internet search and RAG capabilities.
+2. Add the custom `tools` that we built in the previous sections to the agent to enable it with internet search and RAG capabilities.
 
 3. Explore the `conditional_requirements` section — this allows you to control **how and when** the agent should use a specific tool.
 
