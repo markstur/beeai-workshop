@@ -22,21 +22,7 @@ Each tool is implemented interactively. You’ll fill in missing logic and test 
 
 ## Part 1: Tavily MCP Tool
 
-### Step 1: Locate the Tool File
-
-1. Navigate to the following file:
-
-    ```text
-    beeai-tavily-redis/tavily_mcp_tool.py
-    ```
-
-2. Some parts of the implementation are left incomplete. Follow the in-line comments to fill them in. If you need help, check the solution:
-
-    ```text
-    solutions/tavily_mcp_tool.py
-    ```
-
-### Step 2: Verify Your Environment
+### Step 1: Verify Your Environment
 
 1. **Navigate to the correct directory:**
 
@@ -50,9 +36,23 @@ Each tool is implemented interactively. You’ll fill in missing logic and test 
     uv sync
     ```
 
+### Step 2: Locate the Tool File
+
+1. Navigate to the following file:
+
+    ```text
+    src/tavily_mcp_tool.py
+    ```
+
+2. Some parts of the implementation are left incomplete. Follow the in-line comments to fill them in. If you need help, check the solution:
+
+    ```text
+    src/solutions/tavily_mcp_tool.py
+    ```
+
 ### Step 3: Run the Tool
 
-1. Run or debug the Tavily tool independently to test its functionality:
+- Run or debug the Tavily tool independently to test its functionality:
 
     ```bash
     uv run src/tavily_mcp_tool.py
@@ -62,32 +62,32 @@ Each tool is implemented interactively. You’ll fill in missing logic and test 
 
 ## Part 2: Redis Retriever Tool
 
-### Step 1: Locate the Tool File
+### Step 1: Verify Your Environment
 
-1. Navigate to:
-
-    ```text
-    beeai-tavily-redis/redis_retriever.py
-    ```
-
-2. Some sections of the code are incomplete. Fill in the missing parts as instructed by comments in the file. You can check your work using the solution file:
-
-    ```text
-    solutions/redis_retriever.py
-    ```
-
-### Step 2: Verify Your Environment
-
-1. If you've just completed Part 1, your environment should still be active. Otherwise:
+- If you've just completed Part 1, your environment should still be active. Otherwise:
 
     ```bash
     cd beeai-workshop/beeai-tavily-redis
     uv sync
     ```
 
+### Step 2: Locate the Tool File
+
+1. Navigate to:
+
+    ```text
+    src/redis_retriever.py
+    ```
+
+2. Some sections of the code are incomplete. Fill in the missing parts as instructed by comments in the file. You can check your work using the solution file:
+
+    ```text
+    src/solutions/redis_retriever.py
+    ```
+
 ### Step 3: Run the Tool
 
-1. Run or debug your Redis retriever tool independently:
+- Run or debug your Redis retriever tool independently:
 
     ```bash
     uv run src/redis_retriever.py

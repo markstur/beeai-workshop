@@ -11,12 +11,28 @@ logo: images/BeeAI-Logo-White.png
 
 ---
 
-## Step 1: Prepare to Run the Agent
+## Step 1: Verify Environment
+
+1. Navigate to the working directory:
+
+    ```bash
+    cd beeai-workshop/beeai-tavily-redis
+    ```
+
+2. Sync dependencies:
+
+    ```bash
+    uv sync
+    ```
+
+---
+
+## Step 2: Prepare to Run the Agent
 
 1. Navigate to the following file:
 
     ```text
-    beeai-tavily-redis/agent.py
+    src/agent.py
     ```
 
 2. This file contains **fill-in-the-blank** sections. Follow the in-line comments to complete the logic.
@@ -43,7 +59,7 @@ logo: images/BeeAI-Logo-White.png
 
 ---
 
-## Step 2: Understand the Agent
+## Step 3: Understand the Agent
 
 Read the `system_prompt` variable in the file.  
 It defines how the assistant should behave and respond to users.
@@ -58,34 +74,12 @@ Also, explore the `conditional_requirements` section — this allows you to cont
 
 ---
 
-## Step 3: Verify Environment
-
-1. Navigate to the working directory:
-
-    ```bash
-    cd beeai-workshop/beeai-tavily-redis
-    ```
-
-2. Activate your virtual environment:
-
-    ```bash
-    source .venv/bin/activate
-    ```
-
-3. Sync dependencies:
-
-    ```bash
-    uv sync
-    ```
-
----
-
 ## Step 4: Run the Agent
 
 Execute or debug the agent script:
 
 ```bash
-uv run agent.py
+uv run src/agent.py
 ```
 
 You’ll be prompted to enter a question in your terminal. You can ask your own or try one of these examples:
