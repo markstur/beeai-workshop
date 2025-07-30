@@ -70,6 +70,9 @@ This ensures you have the correct versions of all packages used in the workshop,
 
 To prepare your Redis vector database for Retrieval-Augmented Generation (RAG):
 
+!!! note
+    This may take a couple of minutes depending on your device.
+
 ```bash
 uv run src/redis_vector_db.py  
 ```
