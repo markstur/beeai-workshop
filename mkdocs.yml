@@ -26,6 +26,7 @@ nav:
       - Workshop Setup: beeai_fw__tavily_redis/setup/README.md
       - Create Tools: beeai_fw__tavily_redis/tools/README.md
       - Build the Agent: beeai_fw__tavily_redis/agent/README.md
+      - Clean up: beeai_fw__tavily_redis/cleanup/README.md
 
   - References:
     - BeeAI Community: https://github.com/i-am-bee

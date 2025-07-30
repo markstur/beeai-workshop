@@ -54,6 +54,7 @@ Prework
 Pydantic
 PydanticAI
 redis
+RedisVL
 repo
 repos
 runtime
