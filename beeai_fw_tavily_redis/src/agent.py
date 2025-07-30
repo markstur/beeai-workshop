@@ -6,7 +6,7 @@ from beeai_framework.agents import AgentExecutionConfig
 from beeai_framework.middleware.trajectory import GlobalTrajectoryMiddleware
 from beeai_framework.agents.experimental.requirements.conditional import ConditionalRequirement
 from beeai_framework.tools.think import ThinkTool
-from tavily_mcp_tool import Tavily, TavilyToolInput, TavilyToolOutput
+from tavily_mcp_tool import Tavily
 import asyncio
 
 
@@ -42,21 +42,22 @@ async def main():
     memory = UnconstrainedMemory()
 
     company_analysis_agent = RequirementAgent(
-        #[UNCOMMENT OUT THE LLM PROVIDEaR YOU PLAN TO USE]
-        #llm=ChatModel.from_name("ollama:granite3.3:8b"),
-        #llm=ChatModel.from_name("openai:o4-mini-2025-04-16"),
+        role=role,
+        # [UNCOMMENT OUT THE LLM PROVIDEaR YOU PLAN TO USE]
+        # llm=ChatModel.from_name("ollama:granite3.3:8b"),
+        # llm=ChatModel.from_name("openai:o4-mini-2025-04-16"),
         
         #Add the missing Tavily search and redis RAG tool. HINT: The tools are called differently since Tavily is a class and the rag tool is a function. Check the imports for an extra hint on the names to add.
-        tools=[ThinkTool()#,
-               #[INSERT YOUR CODE HEARE],
-               #[INSERT YOUR CODE HEARE]
+        tools=[ThinkTool()  # ,
+               # [INSERT YOUR CODE HEARE],
+               # [INSERT YOUR CODE HEARE]
                ],
              
         instructions=instructions,
         
-        #Play with the conditional requirements! See how that affects the behavior of the agent.
+        # Play with the conditional requirements! See how that affects the behavior of the agent.
         requirements=[
-            #[INSERT YOUR CODE HEARE]
+            # [INSERT YOUR CODE HEARE]
             ConditionalRequirement(ThinkTool, force_at_step=1),
             # ConditionalRequirement(internal_document_search, min_invocations=1),
             # ConditionalRequirement(Tavily, min_invocations=1)
