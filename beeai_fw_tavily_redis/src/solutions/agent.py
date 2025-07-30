@@ -6,7 +6,7 @@ from beeai_framework.agents import AgentExecutionConfig
 from beeai_framework.middleware.trajectory import GlobalTrajectoryMiddleware
 from beeai_framework.agents.experimental.requirements.conditional import ConditionalRequirement
 from beeai_framework.tools.think import ThinkTool
-from tavily_mcp_tool import Tavily, TavilyToolInput, TavilyToolOutput
+from tavily_mcp_tool import Tavily
 import asyncio
 
 
@@ -17,30 +17,20 @@ import asyncio
 
 role = "a **Company Analysis Assistant** that helps employees answer questions about **McDonald’s** and its **competitors**."
 instructions = "You must provide accurate, timely, and well-reasoned insights using the tools available to you."
-note = "If internal documents do not provide the necessary information to answer the question, you **must** follow up with a Tavily search to ensure full coverage. Do **not** stop at `internal_document_search` if the response would be incomplete."
+notes = [
+    "You perform better when you use the ThinkTool tool first. Use it to plan your reasoning and determine which other tools to use next.",
+    "Use the internal_document_search tool to search internal private documents that are not otherwise accessible.",
+    "Use the internal_document_search tool to supplement or validate information you already know or have found elsewhere.",
+    "Information from the `internal_document_search` tool takes precedence over any information found using the Tavily tool.",
+    "If internal documents do not provide the necessary information to answer the question, you **must** follow up with a Tavily search to ensure full coverage. Do **not** stop at `internal_document_search` if the response would be incomplete.",
+    "Information found online by the Tavily tool may not always be reliable. Cross-check with `internal_document_search` when possible.",
+]
 expected_output = """
 Your response should be:
 - **Clear**, **well-structured**, and directly address the user's original question.
 - If you are **unable to fully answer** the question, **explicitly state** that you are not able to answer it completely.
 """
 
-todo = """
-## Tools Available
-
-### ThinkTool
-- **Purpose**: Helps you think through the best course of action before answering a question.
-- **Usage Guidance**: You perform better when you use this tool first. Use it to plan your reasoning and determine which other tools to use next.
-
-### internal_document_search
-- **Purpose**: Allows you to search internal private documents that are not otherwise accessible.
-- **Usage Guidance**: Use this tool to supplement or validate information you already know or have found elsewhere.
-- **Priority**: Information from `internal_document_search` takes precedence over any information found using the Tavily tool.
-
-### Tavily (Online Search)
-- **Purpose**: Enables you to find current and publicly available information from the internet.
-- **Usage Guidance**: If the information you need is **not found** in internal documents via `internal_document_search`, you are **expected to use Tavily** to search the web.
-- **Caution**: Information found online may not always be reliable. Cross-check with `internal_document_search` when possible.
-"""
 
 # =============================================================================
 # MAIN AGENT CONFIGURATION AND EXECUTION
@@ -54,18 +44,19 @@ async def main():
     company_analysis_agent = RequirementAgent(
         role=role,
         llm=ChatModel.from_name("ollama:granite3.3:8b"),
-        #llm=ChatModel.from_name("openai:o4-mini-2025-04-16"),
+        # llm=ChatModel.from_name("openai:o4-mini-2025-04-16"),
         tools=[Tavily(),
                internal_document_search,
                ThinkTool()],
         instructions=instructions,
         requirements=[
-            ConditionalRequirement(internal_document_search, min_invocations=1),
             ConditionalRequirement(ThinkTool, force_at_step=1),
+            ConditionalRequirement(internal_document_search, min_invocations=1),
             # ConditionalRequirement(Tavily, min_invocations=1)
             ],
         memory=memory,
         middlewares=[GlobalTrajectoryMiddleware(pretty=True)],
+        notes=notes,
     )
 
     # question_for_search = "How many stores are there in Florida?"
