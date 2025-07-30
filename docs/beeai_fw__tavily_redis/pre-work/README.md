@@ -19,6 +19,7 @@ You may use any IDE, but this workshop assumes you're using **Visual Studio Code
 
 - [Download Visual Studio Code (VS Code)](https://code.visualstudio.com/)
 - Install the VS Code **Python and Jupyter extensions** from the Extensions Marketplace:
+
     1. Open the Extensions view in VS Code (`Ctrl+Shift+X` or `Cmd+Shift+X`)
     2. Search for “Python” by Microsoft and install it
     3. Search for "Jupyter" by Microsoft and install it
@@ -53,6 +54,9 @@ We recommend using [`uv`](https://github.com/astral-sh/uv) as your Python packag
 
 ### Install Ollama
 
+!!! note
+    To run the Granite model locally, we recommend having at least **16GB of RAM** for optimal performance.
+
 To run models locally on your machine:
 
 1. Download and install Ollama: [https://ollama.com/download](https://ollama.com/download)
@@ -78,14 +82,7 @@ We'll be using Redis Stack for local vector storage.
 
 ### Install Redis Stack
 
-- Follow the [official installation instructions](https://redis.io/docs/latest/operate/oss_and_stack/install/install-stack/homebrew/)
-- Or install with Homebrew (macOS):
-
-   ```bash
-   brew tap redis-stack/redis-stack
-   brew install redis-stack
-   redis-stack-server
-   ```
+- Follow the [official installation instructions](https://redis.io/docs/latest/operate/oss_and_stack/install/archive/install-stack/)
 
 ---
 
