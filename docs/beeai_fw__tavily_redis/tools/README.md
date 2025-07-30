@@ -58,6 +58,8 @@ Each tool is implemented interactively. You’ll fill in missing logic and test 
     uv run src/tavily_mcp_tool.py
     ```
 
+> Remember to save the file with your changes before running it!
+
 ---
 
 ## Part 2: Redis Retriever Tool
@@ -92,5 +94,7 @@ Each tool is implemented interactively. You’ll fill in missing logic and test 
     ```bash
     uv run src/redis_retriever.py
     ```
+
+> Remember to save the file with your changes before running it!
 
     This ensures the tool works as expected before integrating it into your BeeAI Agent!
