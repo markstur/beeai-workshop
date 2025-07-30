@@ -6,7 +6,7 @@ from beeai_framework.agents import AgentExecutionConfig
 from beeai_framework.middleware.trajectory import GlobalTrajectoryMiddleware
 from beeai_framework.agents.experimental.requirements.conditional import ConditionalRequirement
 from beeai_framework.tools.think import ThinkTool
-from tavily_mcp_tool import Tavily, TavilyToolInput, TavilyToolOutput
+from tavily_mcp_tool import Tavily
 import asyncio
 
 
@@ -15,33 +15,22 @@ import asyncio
 # =============================================================================
 # Comprehensive instructions that define the agent's role, capabilities, and decision-making logic
 
-system_prompt = """You are a **Company Analysis Assistant** that helps employees answer questions about **McDonald’s** and its **competitors**. Your role is to provide accurate, timely, and well-reasoned insights using the tools available to you.
-
-## Tools Available
-
-### ThinkTool
-- **Purpose**: Helps you think through the best course of action before answering a question.
-- **Usage Guidance**: You perform better when you use this tool first. Use it to plan your reasoning and determine which other tools to use next.
-
-### internal_document_search
-- **Purpose**: Allows you to search internal private documents that are not otherwise accessible.
-- **Usage Guidance**: Use this tool to supplement or validate information you already know or have found elsewhere.
-- **Priority**: Information from `internal_document_search` takes precedence over any information found using the Tavily tool.
-
-### Tavily (Online Search)
-- **Purpose**: Enables you to find current and publicly available information from the internet.
-- **Usage Guidance**: If the information you need is **not found** in internal documents via `internal_document_search`, you are **expected to use Tavily** to search the web.
-- **Caution**: Information found online may not always be reliable. Cross-check with `internal_document_search` when possible.
-
-## Tool Usage Logic
-If internal documents do not provide the necessary information to answer the question, you **must** follow up with a Tavily search to ensure full coverage. Do **not** stop at `internal_document_search` if the response would be incomplete.
-
-## Output Expectations
-
+role = "a **Company Analysis Assistant** that helps employees answer questions about **McDonald’s** and its **competitors**."
+instructions = "You must provide accurate, timely, and well-reasoned insights using the tools available to you."
+notes = [
+    "You perform better when you use the ThinkTool tool first. Use it to plan your reasoning and determine which other tools to use next.",
+    "Use the internal_document_search tool to search internal private documents that are not otherwise accessible.",
+    "Use the internal_document_search tool to supplement or validate information you already know or have found elsewhere.",
+    "Information from the `internal_document_search` tool takes precedence over any information found using the Tavily tool.",
+    "If internal documents do not provide the necessary information to answer the question, you **must** follow up with a Tavily search to ensure full coverage. Do **not** stop at `internal_document_search` if the response would be incomplete.",
+    "Information found online by the Tavily tool may not always be reliable. Cross-check with `internal_document_search` when possible.",
+]
+expected_output = """
 Your response should be:
 - **Clear**, **well-structured**, and directly address the user's original question.
 - If you are **unable to fully answer** the question, **explicitly state** that you are not able to answer it completely.
 """
+
 
 # =============================================================================
 # MAIN AGENT CONFIGURATION AND EXECUTION
@@ -53,28 +42,39 @@ async def main():
     memory = UnconstrainedMemory()
 
     company_analysis_agent = RequirementAgent(
+        role=role,
         llm=ChatModel.from_name("ollama:granite3.3:8b"),
-        #llm=ChatModel.from_name("openai:o4-mini-2025-04-16"),
+        # llm=ChatModel.from_name("openai:o4-mini-2025-04-16"),
         tools=[Tavily(),
                internal_document_search,
                ThinkTool()],
-        instructions= system_prompt,
+        instructions=instructions,
         requirements=[
-            # ConditionalRequirement(internal_document_search, min_invocations=1),
             ConditionalRequirement(ThinkTool, force_at_step=1),
+            ConditionalRequirement(internal_document_search, min_invocations=1),
             # ConditionalRequirement(Tavily, min_invocations=1)
             ],
-        memory=memory
+        memory=memory,
+        middlewares=[GlobalTrajectoryMiddleware(pretty=True)],
+        notes=notes,
     )
 
     # question_for_search = "How many stores are there in Florida?"
     # print("QUESTION: ", question_for_search)
-    # response = await company_analysis_agent.run(question_for_search, execution=AgentExecutionConfig(max_iterations=8)).middleware(GlobalTrajectoryMiddleware())
+    # response = await company_analysis_agent.run(
+        # question_for_search,
+        # execution=AgentExecutionConfig(max_iterations=8),
+        # expected_output=expected_output,
+    # )  # .middleware(GlobalTrajectoryMiddleware())
     # print("ANSWER: ", response.answer.text)
 
     # question_for_docs = "what is our target market for the pilot?"
     # print("QUESTION: ", question_for_docs)
-    # response = await company_analysis_agent.run(question_for_docs, execution=AgentExecutionConfig(max_retries_per_step=1, total_max_retries=1, max_iterations=3)).middleware(GlobalTrajectoryMiddleware())
+    # response = await company_analysis_agent.run(
+        # question_for_docs,
+        # execution=AgentExecutionConfig(max_retries_per_step=1, total_max_retries=1, max_iterations=4),
+        # expected_output=expected_output,
+    # )  # middleware(GlobalTrajectoryMiddleware())
     # print("ANSWER: ", response.answer.text)
 
 # =============================================================================
@@ -104,9 +104,10 @@ async def main():
             
             # Run the agent with the user's question
             response = await company_analysis_agent.run(
-                user_question, 
-                execution=AgentExecutionConfig(max_iterations=8)
-            ).middleware(GlobalTrajectoryMiddleware())
+                user_question,
+                execution=AgentExecutionConfig(max_iterations=8),
+                expected_output=expected_output,
+            )  # .middleware(GlobalTrajectoryMiddleware())
             
             # Display the answer
             print(f"\nAnswer: {response.answer.text}\n")
