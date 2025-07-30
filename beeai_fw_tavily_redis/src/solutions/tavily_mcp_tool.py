@@ -3,6 +3,7 @@ import json
 import os
 import logging
 from pathlib import Path
+from pprint import pprint
 from typing import Any, Optional, List, Literal, Dict
 from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -311,9 +312,10 @@ async def test_tavily_tool():
     
     try:
         # Run the tool (within async context)
-        result = await tavily_tool._run(search_input, None, context)
+        results = await tavily_tool._run(search_input, None, context)
         print("Search completed successfully!")
-        print(f"Results: {result}")
+        print("Results:")
+        pprint(results.to_json_safe())
     except Exception as e:
         print(f"Error running search: {e}")
 
