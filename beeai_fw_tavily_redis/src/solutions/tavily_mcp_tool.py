@@ -231,6 +231,7 @@ class TavilyToolOutput(BaseModel):
 # =============================================================================
 # The primary tool class that implements the framework's Tool interface
 
+
 class Tavily(Tool[TavilyToolInput, ToolRunOptions, JSONToolOutput[TavilyToolOutput]]):
     name = "TavilyTool"
     description = "Search the internet for current information that you might not already know."
