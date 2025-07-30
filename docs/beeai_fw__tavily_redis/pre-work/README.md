@@ -76,13 +76,13 @@ To run models locally on your machine:
 
 ---
 
-## Redis Stack
+## Redis as a vector database
 
-We'll be using Redis Stack for local vector storage.
+We'll be using Redis for local vector storage.
 
-### Install Redis Stack
+### Install Redis
 
-- Follow the [official installation instructions](https://redis.io/docs/latest/operate/oss_and_stack/install/archive/install-stack/)
+- Follow the [official installation instructions](https://redis.io/docs/latest/operate/oss_and_stack/install/)
 
 ---
 
