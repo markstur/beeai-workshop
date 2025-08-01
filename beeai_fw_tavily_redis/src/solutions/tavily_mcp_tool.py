@@ -22,13 +22,13 @@ from mcp.client.stdio import stdio_client
 # SETUP AND CONFIGURATION
 # =============================================================================
 # Set up working directory and environment for the MCP server to run properly
-print(f"Current working directory: {os.getcwd()}")
+# print(f"Current working directory: {os.getcwd()}")
 script_dir = Path(__file__).parent
-print(f"Script directory: {script_dir}")
+# print(f"Script directory: {script_dir}")
 
 # Change to script directory
 os.chdir(script_dir)
-print(f"Changed to: {os.getcwd()}")
+# print(f"Changed to: {os.getcwd()}")
 
 # =============================================================================
 # SETTINGS AND CONFIGURATION MODELS
@@ -38,6 +38,7 @@ print(f"Changed to: {os.getcwd()}")
 class Settings(BaseSettings):
     TAVILY_API_KEY: str = Field(alias='TAVILY_API_KEY')
     model_config = SettingsConfigDict(env_file='../.env', extra='ignore')
+
 
 # =============================================================================
 # SEARCH RESULT PARSING UTILITIES
@@ -80,8 +81,6 @@ def parse_search_results(text_content: str, query: str) -> Dict[str, Any]:
         "results": results,
         "total_results": len(results)
     }
-
-
 
 
 # =============================================================================
@@ -203,6 +202,7 @@ class TavilySearch:
         except Exception as e:
             return {"error": f"Search failed: {str(e)}"}
 
+
 # =============================================================================
 # FRAMEWORK INTEGRATION MODELS
 # =============================================================================
@@ -215,11 +215,13 @@ class TavilyToolInput(BaseModel):
     include_answer: Literal[False] = Field(False, description="Answer inclusion is fixed to False.")
     include_domains: Optional[List[str]] = Field(None, description="Optional list of domains to constrain the search.")
 
+
 class ParsedResult(BaseModel):
     title: str
     url: str
     content: str
     score: float
+
 
 class TavilyToolOutput(BaseModel):
     query: str

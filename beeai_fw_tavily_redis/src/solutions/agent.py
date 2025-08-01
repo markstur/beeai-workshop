@@ -1,13 +1,20 @@
+import asyncio
+import logging
+
 from redis_retriever import internal_document_search
+from beeai_framework.agents.base import BaseAgent
+from beeai_framework.agents.experimental.requirements.requirement import Requirement
 from beeai_framework.agents.experimental import RequirementAgent
 from beeai_framework.memory import UnconstrainedMemory
 from beeai_framework.backend.chat import ChatModel
 from beeai_framework.agents import AgentExecutionConfig
 from beeai_framework.middleware.trajectory import GlobalTrajectoryMiddleware
 from beeai_framework.agents.experimental.requirements.conditional import ConditionalRequirement
-from beeai_framework.tools.think import ThinkTool
+from beeai_framework.tools.think import ThinkTool, Tool
 from tavily_mcp_tool import Tavily
-import asyncio
+
+httpx_logger = logging.getLogger("httpx")
+httpx_logger.setLevel(logging.WARNING)
 
 
 # =============================================================================
@@ -55,7 +62,17 @@ async def main():
             # ConditionalRequirement(Tavily, min_invocations=1)
             ],
         memory=memory,
-        middlewares=[GlobalTrajectoryMiddleware(pretty=True)],
+        # [UNCOMMENT MIDDLEWARES TO SEE DETAILED OUTPUT. USE EXCLUDED TO TARGET THE DESIRED OUTPUT]
+        # middlewares=[
+            # GlobalTrajectoryMiddleware(
+                # pretty=True,
+                # excluded=[
+                    # ChatModel,    # This includes OllamaChatModel
+                    # BaseAgent,    # This includes RequirementAgent,
+                    # Requirement,  # This includes ConditionalRequirement,
+                    # Tool,         # This includes ThinkTool and FinalAnswerTool
+                # ]
+            # )],
         notes=notes,
     )
 
