@@ -67,6 +67,8 @@ logo: images/BeeAI-Logo-White.png
 
 3. Explore the `conditional_requirements` section — this allows you to control **how and when** the agent should use a specific tool giving you more reliability.
 
+4. Uncomment the `middlewares` parameter and experiment with what is `excluded`. This allows you to see what the agent is doing with detailed output (maybe too much).
+
 > 💡 To learn more about how the BeeAI **Requirement Agent** works:  [Requirement Agent Documentation](https://framework.beeai.dev/experimental/requirement-agent)
 >
 > 👉 To View the complete argument reference for conditional requirements: [Conditional Requirements Reference](https://framework.beeai.dev/experimental/requirement-agent#complete-parameter-reference)
