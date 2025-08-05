@@ -40,11 +40,14 @@ Alternatively, you can open VS Code first and use `File > Open Folder` to naviga
 ## Set Up Environment Variables
 
 Create a `.env` file based on the existing `env.template` at the `beeai_fw_tavily_redis` directory level.  
-Add your **Tavily** key and optionally your **OpenAI** key to this file.
 
 ```bash
 cp env.template .env
 ```
+
+Add your **Tavily** key and optionally your **OpenAI** key to this `.env` file.
+
+**If using Redis Cloud** - Also include `REDIS_URL` from the dashboard
 
 ---
 
