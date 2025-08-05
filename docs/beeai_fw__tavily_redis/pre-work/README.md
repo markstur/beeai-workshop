@@ -84,6 +84,8 @@ We'll be using Redis for local vector storage.
 
 - Follow the [official installation instructions](https://redis.io/docs/latest/operate/oss_and_stack/install/)
 
+- Or use Redis Cloud by creating a [free account](https://redis.io/try-free/)
+
 ---
 
 ## You're Ready
