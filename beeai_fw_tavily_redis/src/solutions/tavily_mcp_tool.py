@@ -260,14 +260,18 @@ class Tavily(Tool[TavilyToolInput, ToolRunOptions, JSONToolOutput[TavilyToolOutp
         """Execute the Tavily search and return structured results"""
         
         try:
+            print("Run Tavily tool search...")
             # Create and use TavilySearch with async context manager
             async with TavilySearch() as tavily:
                 search_results = await tavily.search(**input.__dict__)
+            print("Run Tavily tool search...")
 
             # Check for errors in search results
             if "error" in search_results:
                 raise ToolInputValidationError(f"Search failed: {search_results['error']}")
-            
+
+            print(f"Tavily tool search returned {search_results.get('total_results')} results.")
+
             # Convert to our output format
             parsed_results = []
             for result in search_results.get("results", []):
@@ -311,6 +315,7 @@ async def test_tavily_tool():
     
     try:
         # Run the tool (within async context)
+        print("Run Tavily tool search...")
         results = await tavily_tool._run(search_input, None, context)
         print("Search completed successfully!")
         print("Results:")

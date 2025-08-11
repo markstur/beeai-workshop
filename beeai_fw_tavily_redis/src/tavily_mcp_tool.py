@@ -133,7 +133,6 @@ class TavilySearch:
         # [UNCOMMENT AND INSERT YOUR CODE HERE]
         max_results: int = 5,
         search_depth: str = "basic",
-        include_answer: bool = False,
         include_domains: Optional[List[str]] = None,
         **kwargs
     ) -> Dict[str, Any]:
@@ -149,7 +148,6 @@ class TavilySearch:
                 "search_depth": search_depth,
                 "include_images": False,
                 "topic": "general",
-                "include_answer": include_answer,
                 "include_raw_content": False
             }
             
@@ -199,7 +197,9 @@ class TavilySearch:
             
             # Parse and return structured results
             return parse_search_results(text_content, query)
-            
+
+        except ToolInputValidationError as tive:
+            return {"error": tive.explain()}
         except Exception as e:
             return {"error": f"Search failed: {str(e)}"}
 
@@ -213,8 +213,10 @@ class TavilyToolInput(BaseModel):
     query: str = Field(..., description="The query that will be searched for on the internet.")
     max_results: Literal[5] = Field(5, description="Fixed number of search results.")
     search_depth: Literal["basic"] = Field("basic", description="Fixed search depth.")
-    include_answer: Literal[False] = Field(False, description="Answer inclusion is fixed to False.")
     include_domains: Optional[List[str]] = Field(None, description="Optional list of domains to constrain the search.")
+    time_range: Literal[
+        'day', 'week', 'month', 'year', 'd', 'w', 'm', 'y'] = Field("year", description="Time range to use for search")
+    country: Literal["united states"] = Field("united states", description="Country to use for search")
 
 
 class ParsedResult(BaseModel):
@@ -260,20 +262,18 @@ class Tavily(Tool[TavilyToolInput, ToolRunOptions, JSONToolOutput[TavilyToolOutp
         """Execute the Tavily search and return structured results"""
         
         try:
+            print("Run Tavily tool search...")
             # Create and use TavilySearch with async context manager
             async with TavilySearch() as tavily:
-                search_results = await tavily.search(
-                    query=input.query,
-                    max_results=input.max_results,
-                    search_depth=input.search_depth,
-                    include_answer=input.include_answer,
-                    include_domains=input.include_domains
-                )
-            
+                search_results = await tavily.search(**input.__dict__)
+            print("Run Tavily tool search...")
+
             # Check for errors in search results
             if "error" in search_results:
                 raise ToolInputValidationError(f"Search failed: {search_results['error']}")
-            
+
+            print(f"Tavily tool search returned {search_results.get('total_results')} results.")
+
             # Convert to our output format
             parsed_results = []
             for result in search_results.get("results", []):
@@ -317,6 +317,7 @@ async def test_tavily_tool():
     
     try:
         # Run the tool (within async context)
+        print("Run Tavily tool search...")
         results = await tavily_tool._run(search_input, None, context)
         print("Search completed successfully!")
         print("Results:")
