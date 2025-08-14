@@ -13,6 +13,7 @@ from pydantic import BaseModel, Field
 # Configuration settings and environment variables
 
 REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379")
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 # =============================================================================
 # VECTOR STORE AND EMBEDDINGS SETUP
@@ -22,12 +23,15 @@ class RAGRetriever:
 
     def __init__(self):
 
-        # "openai:o4-mini-2025-04-16"
-        embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
+        model_name = "sentence-transformers/all-mpnet-base-v2"  # or "openai:o4-mini-2025-04-16"
+        print(f"RAG retriever using {model_name} for embeddings.")
+        embeddings = HuggingFaceEmbeddings(model_name=model_name)
 
         # Configure and init the vector store with our embeddings model
+        index_name = "internal_docs"
+        print(f"RAG retriever using {index_name} Redis vector store index name.")
         config = RedisConfig(
-            index_name="internal_docs",
+            index_name=index_name,
             redis_url=REDIS_URL,
             metadata_schema=[
                 {"name": "document", "type": "tag"},
@@ -75,6 +79,7 @@ class RagToolOutput(ToolOutput):
 def internal_document_search(query: str) -> RagToolOutput:
     """Tool that answers a query about company policy using company internal documents. Returns up to top_n results below the similarity distance threshold."""
     retriever = RAGRetriever()
+    print("Searching vector store...")
     results = retriever.vector_store.similarity_search_with_score(
         query, k=4, distance_threshold=0.6
     )
@@ -86,6 +91,8 @@ def internal_document_search(query: str) -> RagToolOutput:
             metadata=getattr(doc, "metadata", {}),
             score=score
         ))
+
+    print(f"Vector store search returned {len(output)} top results.")
     return RagToolOutput(output)
 
 # =============================================================================
