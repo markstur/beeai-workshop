@@ -45,9 +45,11 @@ Create a `.env` file based on the existing `env.template` at the `beeai_fw_tavil
 cp env.template .env
 ```
 
-Add your **Tavily** key and optionally your **OpenAI** key to this `.env` file.
+In your new .env file:
 
-**If using Redis Cloud** - Also include `REDIS_URL` from the dashboard
+1. Add your `TAVILY_API_KEY` key
+2. Add your `REDIS_URL` with your Redis database details (replace URL with your `Public endpoint` and PASSWORD with your `Default user password`)
+3. Optionally, add your **OpenAI** key
 
 ---
 

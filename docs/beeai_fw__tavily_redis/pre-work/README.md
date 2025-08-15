@@ -43,6 +43,19 @@ We recommend using [`uv`](https://github.com/astral-sh/uv) as your Python packag
 
 - Go to [Tavily](https://app.tavily.com/home) and sign up for a free API key.
 
+## Redis as a vector database (Required)
+
+We'll be using Redis Cloud for vector storage.
+
+- Use Redis Cloud by creating a [free account](https://redis.io/try-free/)
+- Create a database
+    - Set a database name
+    - Select `Database version` 8.0
+    - Click `Create database`
+- When the database creation is complete:
+    - Under `General`, copy the database `Public endpoint` (to use later in .env setup)
+    - Expand `Security` and copy the `Default user password` (to use later in .env setup)
+
 ### OpenAI (Optional)
 
 - Only needed if you do **not** plan to run a model locally with Ollama.
@@ -73,18 +86,6 @@ To run models locally on your machine:
    ```
 
 > Model link: [Granite 3.3:8b](https://ollama.com/library/granite3.3:8b)
-
----
-
-## Redis as a vector database
-
-We'll be using Redis for local vector storage.
-
-### Install Redis
-
-- Follow the [official installation instructions](https://redis.io/docs/latest/operate/oss_and_stack/install/)
-
-- Or use Redis Cloud by creating a [free account](https://redis.io/try-free/)
 
 ---
 
