@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 from beeai_framework.tools import ToolOutput, tool
 from beeai_framework.utils.strings import to_json
 from langchain_huggingface import HuggingFaceEmbeddings

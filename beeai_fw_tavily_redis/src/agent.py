@@ -1,6 +1,11 @@
 import asyncio
 import logging
 
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
 from redis_retriever import internal_document_search
 from beeai_framework.agents.base import BaseAgent
 from beeai_framework.agents.experimental.requirements.requirement import Requirement
