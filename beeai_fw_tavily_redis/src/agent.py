@@ -57,7 +57,8 @@ async def main():
         role=role,
         # [UNCOMMENT OUT THE LLM PROVIDER YOU PLAN TO USE]
         # llm=ChatModel.from_name("ollama:granite3.3:8b"),
-        # llm=ChatModel.from_name("openai:o4-mini-2025-04-16"),
+        # llm=ChatModel.from_name("openai:gpt-5-mini-2025-08-07", ChatModelParameters(temperature=1)),
+
         
         # Add the missing Tavily search and redis RAG tool. HINT: The tools are called differently since Tavily is a class and the rag tool is a function. Check the imports for an extra hint on the names to add.
         tools=[ThinkTool()  # ,
