@@ -56,7 +56,7 @@ async def main():
     company_analysis_agent = RequirementAgent(
         role=role,
         llm=ChatModel.from_name("ollama:granite3.3:8b"),
-        # llm=ChatModel.from_name("openai:o4-mini-2025-04-16"),
+        # llm=ChatModel.from_name("openai:gpt-5-mini-2025-08-07", ChatModelParameters(temperature=1)),
         tools=[Tavily(),
                internal_document_search,
                ThinkTool()],
