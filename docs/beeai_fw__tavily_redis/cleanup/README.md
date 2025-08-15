@@ -6,4 +6,10 @@ logo: images/ibm-blue-background.png
 
 # Clean up
 
-If you want to delete your Redis database, look in the `Danger zone` section at the bottom of your database details page on the Redis Cloud.
+## Redis Cloud
+
+If you want to delete your Redis database:
+
+1. Go to your Redis Cloud dashboard
+2. Click on your database
+3. Scroll to the bottom to find `Danger zone` and click the `Delete` button.

@@ -11,7 +11,7 @@ from beeai_framework.agents.base import BaseAgent
 from beeai_framework.agents.experimental.requirements.requirement import Requirement
 from beeai_framework.agents.experimental import RequirementAgent
 from beeai_framework.memory import UnconstrainedMemory
-from beeai_framework.backend.chat import ChatModel
+from beeai_framework.backend.chat import ChatModel, ChatModelParameters
 from beeai_framework.agents import AgentExecutionConfig
 from beeai_framework.middleware.trajectory import GlobalTrajectoryMiddleware
 from beeai_framework.agents.experimental.requirements.conditional import ConditionalRequirement
@@ -89,6 +89,24 @@ async def main():
             # )],
         notes=notes,
     )
+
+    # question_for_search = "How many stores are there in Florida?"
+    # print("QUESTION: ", question_for_search)
+    # response = await company_analysis_agent.run(
+        # question_for_search,
+        # execution=AgentExecutionConfig(max_iterations=8),
+        # expected_output=expected_output,
+    # )  # .middleware(GlobalTrajectoryMiddleware())
+    # print("ANSWER: ", response.answer.text)
+
+    # question_for_docs = "what is our target market for the pilot?"
+    # print("QUESTION: ", question_for_docs)
+    # response = await company_analysis_agent.run(
+        # question_for_docs,
+        # execution=AgentExecutionConfig(max_retries_per_step=1, total_max_retries=1, max_iterations=4),
+        # expected_output=expected_output,
+    # )  # middleware(GlobalTrajectoryMiddleware())
+    # print("ANSWER: ", response.answer.text)
 
     # =============================================================================
     # INTERACTIVE QUESTION-ANSWER LOOP

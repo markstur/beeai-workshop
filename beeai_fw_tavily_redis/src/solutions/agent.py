@@ -11,7 +11,7 @@ from beeai_framework.agents.base import BaseAgent
 from beeai_framework.agents.experimental.requirements.requirement import Requirement
 from beeai_framework.agents.experimental import RequirementAgent
 from beeai_framework.memory import UnconstrainedMemory
-from beeai_framework.backend.chat import ChatModel
+from beeai_framework.backend.chat import ChatModel, ChatModelParameters
 from beeai_framework.agents import AgentExecutionConfig
 from beeai_framework.middleware.trajectory import GlobalTrajectoryMiddleware
 from beeai_framework.agents.experimental.requirements.conditional import ConditionalRequirement
@@ -99,10 +99,10 @@ async def main():
     # )  # middleware(GlobalTrajectoryMiddleware())
     # print("ANSWER: ", response.answer.text)
 
-# =============================================================================
-# INTERACTIVE QUESTION-ANSWER LOOP
-# =============================================================================
-# Allow users to ask questions interactively through the terminal!
+    # =============================================================================
+    # INTERACTIVE QUESTION-ANSWER LOOP
+    # =============================================================================
+    # Allow users to ask questions interactively through the terminal!
     
     print("Company Analysis Assistant - McDonald's Intelligence")
     print("Ask questions or type 'quit' to exit.\n")
