@@ -16,6 +16,7 @@ nav:
     - Overview of BeeAI (COMING SOON):
       - Overview: overview_of_beeai/overview/README.md
       - Pre-work: overview_of_beeai/pre-work/README.md
+      - Workshop Setup: overview_of_beeai/setup/README.md
       - Lab 1. Invoke A2A Agents: overview_of_beeai/lab-1/README.md
       - Lab 2. A multi-agent workflow: overview_of_beeai/lab-2/README.md
       - Lab 3. Use the BeeAI Platform: overview_of_beeai/lab-3/README.md
