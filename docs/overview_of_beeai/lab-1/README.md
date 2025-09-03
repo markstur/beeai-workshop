@@ -67,9 +67,6 @@ curl -X 'GET' \
 !!! insight
     This shows you that your A2A agent is discoverable on port 10001 and is served and available. A server hosts one agent.
 
-!!! note
-    To terminate the A2A agent server press `Ctrl + C` in the terminal where the server is running or close the terminal.
-
 ### 5. Run the Ticket Response Agent
 
 In a separate terminal, run the ticket response agent (defaults to run on port 10002):
@@ -118,4 +115,4 @@ In the response body, you should see an appropriate human-like ticket agent resp
 
 ### 7. Clean Up
 
-If you are continuing the workshop you should leave these servers running for the following labs. When you are ready to stop the A2A agent servers use `Ctrl + C` or exiting the terminal where they are running. You can always start them again with the `uv run` commands above.
+If you are continuing the workshop you should leave these servers running for the following labs. When you are ready to stop the A2A agent servers use `Ctrl + C` where they are running. You can always start them again with the `uv run` commands above.

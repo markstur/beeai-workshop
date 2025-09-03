@@ -24,7 +24,7 @@ uv sync
 
 ### 3. Run the Ticket Workflow Agent
 
-In your terminal, run the ticket workflow agent (defaults to run on port 8000):
+In your terminal, run the ticket workflow agent (defaults to run on port 10000):
 
 ```shell
 uv run src/ticket_workflow_agent.py
@@ -35,7 +35,7 @@ uv run src/ticket_workflow_agent.py
 
 ### 4. Verify All Agents Are Running
 
-You should have 2 terminals running the agents from lab 1.  You can verify this by using downloading the agent cards using curl:
+You should have 2 terminals running the agents from lab 1.  You can verify this by downloading the agent cards using curl:
 
 ```shell
 curl -X 'GET' 'http://localhost:10001/.well-known/agent-card.json' -H 'accept: application/json'
@@ -94,6 +94,8 @@ In a separate terminal, run this curl command:
 You should see a human-like customer service response in the server response.
 
 If you check the terminal where you are running the `ticket_workflow_agent.py`, you will see that it found Ticket Triager and printed the triage results, and then it found the Ticket Responder and printed the response. The result you saw above should be very similar to the result from the Ticket Responder.
+
+Notice that when you are not using BeeAI Platform, the agents are only found by getting the port numbers that were set in the `.env` file (and assuming they are running on localhost).
 
 ### 6. Clean Up
 

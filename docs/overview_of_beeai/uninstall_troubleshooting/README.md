@@ -43,7 +43,7 @@ You can access comprehensive CLI documentation directly from your terminal:
 1. Check what's running on the port:
 
     ```shell
-    lsof -i :8000
+    lsof -i :<PORT>
     ```
 
 2. Kill the process if needed, substituting the number in the "PID" column:
@@ -52,11 +52,7 @@ You can access comprehensive CLI documentation directly from your terminal:
     kill -9 <PID>
     ```
 
-3. Or use a different port:
-
-    ```shell
-    uv run src/ticket_workflow_agent.py --port 8001
-    ```
+3. Or use a different port (configured in `.env` file)
 
 ### BeeAI Platform Won't Start
 
@@ -140,7 +136,7 @@ You can access comprehensive CLI documentation directly from your terminal:
 2. Navigate to the correct directory:
 
     ```shell
-    cd beeai-workshop/intro_acp_beeai
+    cd beeai-workshop/overview_of_beeai
     ```
 
 3. Verify the files exist:

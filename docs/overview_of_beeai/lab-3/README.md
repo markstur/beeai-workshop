@@ -59,7 +59,7 @@ uv sync
 
 ### 4. Run the Ticket Workflow Agent
 
-In your 3 terminals, run the 3 agents again:
+In your 3 terminals, run the 3 agents again (one of these commands in each terminal):
 
 ```shell
 uv run src/ticket_triage_agent.py
