@@ -23,7 +23,7 @@ This lab consists of 3 progressive parts:
 ### Lab 2: A multi-agent workflow
 
 * Create a new workflow agent that sequentially orchestrates two pre-built agents of different frameworks
-* Execute the ACP agent in the through the OpenAPI UI and/or CLI
+* Invoke this agent using curl commands or the OpenAPI UI
 
 ### Lab 3: Use the BeeAI Platform
 

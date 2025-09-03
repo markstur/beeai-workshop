@@ -6,9 +6,9 @@ logo: images/ibm-blue-background.png
 
 # Pre-work
 
-## ACP
+## BeeAI
 
-### Prerequisites to get started with ACP
+### Prerequisites to get started with BeeAI
 
 #### Visual Studio Code (Recommended)
 
@@ -42,16 +42,16 @@ logo: images/ibm-blue-background.png
 2. Navigate to the workshop folder and open in VS Code:
 
     ```shell
-    cd beeai-workshop/intro_acp_beeai
+    cd beeai-workshop/overview_of_beeai
     code .
     ```
 
     !!! important
-        Make sure to open the specific `intro_acp_beeai` folder in VS Code, not the entire `beeai-workshop` directory. This ensures proper project structure and dependencies.
+        Make sure to open the specific `overview_of_beeai` folder in VS Code, not the entire `beeai-workshop` directory. This ensures proper project structure and dependencies.
 
-    **Alternative:** You can also open VS Code first, then use "File > Open Folder" to navigate to and select the `beeai-workshop/intro_acp_beeai` folder.
+    **Alternative:** You can also open VS Code first, then use "File > Open Folder" to navigate to and select the `beeai-workshop/overview_of_beeai` folder.
 
-3. Create a .env file based on the env.template file at the intro_acp_beeai directory level. Uncomment one of the provider configs and add your own api key.
+3. Create a .env file based on the env.template file at the overview_of_beeai directory level. Uncomment one of the provider configs and add your own api key.
 
     ```shell
     cp env.template .env
