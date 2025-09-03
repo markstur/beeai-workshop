@@ -1,0 +1,12 @@
+[project]
+name = "acp-to-a2a"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11, <3.14"
+dependencies = [
+    "beeai-framework~=0.1.37",
+    "beeai-sdk~=0.3.1",
+    "python-dotenv~=1.1.1",
+    "pydantic-ai~=0.7.6",
+]
