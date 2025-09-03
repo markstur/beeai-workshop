@@ -48,6 +48,7 @@ load_dotenv()
 AGENT_NAME = "Ticket Agent"
 PORT_ENV_VAR = "TICKET_AGENT_PORT"
 PORT = os.environ.get(PORT_ENV_VAR)
+USE_PLATFORM = os.environ.get("USE_PLATFORM", "false").lower() not in ["0", "false", "off"]
 PLATFORM_URL = os.environ.get("PLATFORM_URL", "http://127.0.0.1:8333")
 PROVIDER_ID = os.getenv("PROVIDER_ID")
 MODEL_ID = os.getenv("MODEL_ID")
@@ -71,14 +72,19 @@ async def find_agents():
     """Find and refresh agents using BeeAI platform if available, else using configured local ports."""
 
     global AGENTS
-    try:
-        platform_agents = await BeeAIPlatformAgent.from_platform(url=PLATFORM_URL, memory=UnconstrainedMemory())
-        AGENTS.update({pa.name: pa for pa in platform_agents if pa.name in REMOTE_AGENTS})
-    except Exception as e:
-        print(f"Attempting to find agents using BeeAI Platform at {PLATFORM_URL} exception: {e}")
 
-    for name in AGENTS:
-        print(f"FOUND AGENT '{name}' USING BEEAI PLATFORM")
+    if USE_PLATFORM:
+        print(f"Attempting to find agents using BeeAI Platform because USE_PLATFORM={USE_PLATFORM}")
+        try:
+            platform_agents = await BeeAIPlatformAgent.from_platform(url=PLATFORM_URL, memory=UnconstrainedMemory())
+            AGENTS.update({pa.name: pa for pa in platform_agents if pa.name in REMOTE_AGENTS})
+        except Exception as e:
+            print(f"Attempting to find agents using BeeAI Platform at {PLATFORM_URL} exception: {e}")
+        for name in AGENTS:
+            print(f"FOUND AGENT '{name}' USING BEEAI PLATFORM")
+    else:
+        print(f"Not attempting to find agents using BeeAI Platform because USE_PLATFORM={USE_PLATFORM}")
+
 
     # Fill in any missing remote ticket agents with local A2AAgent runnables
     for name, env_var in AGENT_PORTS:
