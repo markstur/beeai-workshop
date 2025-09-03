@@ -57,7 +57,12 @@ If you already did this in Lab 1 or 2, you can skip this step. If not, open your
 uv sync
 ```
 
-### 4. Run the Ticket Workflow Agent
+### 4. Set USE_PLATFORM=true in .env
+
+Edit your `.env` file and set **USE_PLATFORM=true**.  This enables the Ticket Workflow Agent
+to use BeeAI Platform to discover and run the other agents.
+
+### 5. Run the Ticket Workflow Agent
 
 In your 3 terminals, run the 3 agents again (one of these commands in each terminal):
 
@@ -70,7 +75,7 @@ uv run src/ticket_workflow_agent.py
 !!! insight
     If you take a look at the code pay special attention to the metadata in the `@server.agent` decorator. The metadata is used by the BeeAI Platform UI.
 
-### 5. Launch the BeeAI UI
+### 6. Launch the BeeAI UI
 
 In your terminal, run:
 
@@ -83,7 +88,7 @@ You should see the UI launch in your browser.
 !!! insight
     If you navigate to the menu bar on the left hand side you will see a list of agents. All 3 agents that we are running on the active server appear because they each have UI metadata in their agent detail. If we killed the server, these agents would instantly disappear.
 
-### 6. Run the Ticket Agent in the BeeAI Platform
+### 7. Run the Ticket Agent in the BeeAI Platform
 
 1. Navigate to the menu bar on the left hand side and select the Ticket Agent
 2. Enter in the sample text or have fun with coming up with your own ticket:
@@ -102,7 +107,7 @@ If you check the terminal where you are running the `ticket_workflow_agent.py`, 
 
 In the output from the `ticket_workflow_agent.py`, you will see the status of `Attempting to find agents using BeeAI Platform`.  When you do not have BeeAI Platform running (as in Lab 2) the A2A agents are only found using the configured ports in the .env file.  When you have BeeAI Platform running, the agents self-register on start-up. With the BeeAI platform the Ticket Agent can find (and run) the other agents using BeeAI Platform.
 
-### 7. Clean Up
+### 8. Clean Up
 
 1. Stop the 3 agent servers using `Ctrl + C` or exiting the terminal where it is running.
 2. Clean up the platform by running this command in your terminal:
