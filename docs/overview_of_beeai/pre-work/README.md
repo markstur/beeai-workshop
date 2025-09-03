@@ -1,61 +1,76 @@
 ---
-title: BeeAI Workshop Pre-work
-description: Preparation for the BeeAI Workshop
-logo: images/ibm-blue-background.png
+title: Pre-work
+description: Workshop Pre-work Instructions
+logo: images/BeeAI-Logo-White.png
 ---
 
-# Pre-work
+# BeeAI Framework Workshop: Prework Instructions
 
-## BeeAI
+Welcome to the Overview of BeeAI Workshop.  
+Please complete the following setup steps **before** the workshop.
 
-### Prerequisites to get started with BeeAI
+---
 
-#### Visual Studio Code (Recommended)
+## Development Environment
 
-- You can use any IDE, but this workshop assumes you're using [VS Code](https://code.visualstudio.com/Download)
-- If this is your first time using VS Code, make sure to install the Python extension from the extension marketplace
+### Visual Studio Code (Recommended)
 
-#### uv
+You may use any IDE, but this workshop assumes you're using **Visual Studio Code (VS Code)**.
 
-- `uv` is the recommended Python package and environment manager for this workshop
-- If you're unfamiliar with `uv`, check out [this uv primer](https://agentcommunicationprotocol.dev/introduction/uv-primer) for installation instructions
+- [Download Visual Studio Code (VS Code)](https://code.visualstudio.com/)
+- Install the VS Code **Python extension** from the Extensions Marketplace:
 
-#### API Key
+    1. Open the Extensions view in VS Code (`Ctrl+Shift+X` or `Cmd+Shift+X`)
+    2. Search for “Python” by Microsoft and install it
 
-- [openrouter](https://openrouter.ai/) (free)
-- [OpenAI](https://platform.openai.com/api-keys) (paid)
-- [Groq](https://console.groq.com/keys) (free/limited)
+---
 
-## Workshop Specific Requirements
+## Python Environment Manager
 
-1. Get the workshop code:
+### `uv` (Recommended)
 
-    Option A: Clone with Git (Recommended):
+We recommend using [`uv`](https://github.com/astral-sh/uv) as your Python package and environment manager.
 
-    ```shell
-    git clone https://github.com/IBM/beeai-workshop.git
-    ```
+- If you’re unfamiliar with `uv`, refer to the [uv installation guide](https://github.com/astral-sh/uv#installation)
+- `uv` is a fast and modern alternative to pip and virtualenv, fully compatible with both
 
-    Option B: Download ZIP:
-    If you're not comfortable with Git, [download the ZIP file](https://github.com/IBM/beeai-workshop/archive/refs/heads/main.zip) and extract it to your desired location.
+---
 
-2. Navigate to the workshop folder and open in VS Code:
+## API Keys
 
-    ```shell
-    cd beeai-workshop/overview_of_beeai
-    code .
-    ```
+### OpenAI (Optional)
 
-    !!! important
-        Make sure to open the specific `overview_of_beeai` folder in VS Code, not the entire `beeai-workshop` directory. This ensures proper project structure and dependencies.
+- Only needed if you do **not** plan to run a model locally with Ollama.
+- [Get an OpenAI API Key](https://platform.openai.com/account/api-keys)
 
-    **Alternative:** You can also open VS Code first, then use "File > Open Folder" to navigate to and select the `beeai-workshop/overview_of_beeai` folder.
+---
 
-3. Create a .env file based on the env.template file at the overview_of_beeai directory level. Uncomment one of the provider configs and add your own api key.
+## Local Model (Optional if using OpenAI)
 
-    ```shell
-    cp env.template .env
-    ```
+### Install Ollama
 
-    !!! note
-        For OpenAI you just need the API Key, for OpenRouter or Groq you need to uncomment all 3 environment variables but only need to modify the API Key.
+!!! note
+    To run the Granite model locally, we recommend having at least **16GB of RAM** for optimal performance.
+
+To run models locally on your machine:
+
+1. Download and install Ollama: [https://ollama.com/download](https://ollama.com/download)
+2. Run or pull the Granite model:
+
+   ```bash
+   ollama run granite3.3:8b
+   ```
+
+   or
+
+   ```bash
+   ollama pull granite3.3:8b
+   ```
+
+> Model link: [Granite 3.3:8b](https://ollama.com/library/granite3.3:8b)
+
+---
+
+## You're Ready
+
+Once you've completed these steps, you're ready for the workshop.
