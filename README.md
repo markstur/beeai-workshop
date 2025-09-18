@@ -12,11 +12,12 @@ Ready to dive into BeeAI? We've got you covered! Visit our comprehensive worksho
 
 Each workshop comes with its own presentation materials to guide you through the learning process. Select the workshop you're interested in from the table below:
 
-| Workshop                                             | Presentation Link                                                                     |
-|------------------------------------------------------|----------------------------------------------------------------------------------------|
-| Introduction to ACP and BeeAI — *Update coming soon* | [View Presentation](https://ibm.box.com/v/acp-beeai-workshop-deck)                    |
-| Company Analysis Agent with the BeeAI Framework      | *Coming soon*                                                                          |
-| *Additional workshops coming soon!*                  | -                                                                                      |
+| Workshop                                                             |
+|----------------------------------------------------------------------|
+| Introduction to the BeeAi Framework                                  |
+| Introduction to ACP and BeeAI — *Update coming soon*                 |
+| Company Analysis Agent with the BeeAI Framework + Tavily + Redis     |
+| *Additional workshops coming soon!*                                  |
 
 ## Need Help? 🆘
 
