@@ -19,6 +19,7 @@ from a2a.types import AgentCapabilities
 from beeai_sdk.a2a.types import Message, AgentMessage
 from beeai_sdk.server import Server
 from beeai_sdk.a2a.extensions import AgentDetail
+from beeai_sdk.platform.configuration import SystemConfiguration
 
 # Third Party
 from pydantic import BaseModel, Field
@@ -30,10 +31,11 @@ load_dotenv()
 # Constants
 AGENT_NAME = "Ticket Triager"
 PORT_ENV_VAR = "TICKET_TRIAGE_AGENT_PORT"
-PORT = os.environ.get(PORT_ENV_VAR)
+PORT_DEFAULT = "10001"
+PORT = os.environ.get(PORT_ENV_VAR, PORT_DEFAULT)
 PROVIDER_ID = os.getenv("PROVIDER_ID")
 MODEL_ID = os.getenv("MODEL_ID")
-MODEL_NAME = ":".join([PROVIDER_ID, MODEL_ID])
+MODEL_NAME = ":".join([PROVIDER_ID, MODEL_ID]) if PROVIDER_ID and MODEL_ID else None
 
 
 # Create the A2A Server
@@ -89,6 +91,14 @@ class TicketClassifierOutput(BaseModel):
 async def ticket_triage_agent(input: Message) -> str:
     """An agent that classifies and summarizes customer support tickets."""
 
+    global MODEL_NAME
+    if not MODEL_NAME:
+        system_config = await SystemConfiguration.get()
+        model_from_platform = system_config.default_llm_model
+        if model_from_platform:
+            print("USING MODEL FROM PLATFORM: ", model_from_platform)
+            MODEL_NAME = model_from_platform
+
     requirement_agent = RequirementAgent(
         llm=ChatModel.from_name(MODEL_NAME),
         instructions="""
@@ -112,10 +122,10 @@ async def ticket_triage_agent(input: Message) -> str:
     )
 
     result = await requirement_agent.run(
-        prompt=input.model_dump_json(),
+        input.model_dump_json(),
         expected_output=TicketClassifierOutput,
     )
-    return result.answer_structured.model_dump_json()
+    return result.output_structured.model_dump_json()
 
 
 async def cli_agent(query: str):

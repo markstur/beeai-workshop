@@ -28,6 +28,7 @@ from beeai_framework.tools import tool
 # BeeAI SDK imports
 from beeai_sdk.a2a.extensions import AgentDetail
 from beeai_sdk.a2a.types import AgentMessage, Message
+from beeai_sdk.platform.configuration import SystemConfiguration
 from beeai_sdk.server import Server
 
 # Third Party
@@ -37,8 +38,10 @@ from pydantic import BaseModel, Field
 # Local
 from ticket_triage_agent import AGENT_NAME as TICKET_TRIAGE_AGENT
 from ticket_triage_agent import PORT_ENV_VAR as TICKET_TRIAGE_PORT_ENV_VAR
+from ticket_triage_agent import PORT_DEFAULT as TICKET_TRIAGE_PORT_DEFAULT
 from ticket_response_agent import AGENT_NAME as TICKET_RESPONSE_AGENT
 from ticket_response_agent import PORT_ENV_VAR as TICKET_RESPONSE_PORT_ENV_VAR
+from ticket_response_agent import PORT_DEFAULT as TICKET_RESPONSE_PORT_DEFAULT
 
 
 # Load environment variables from .env file (before setting log levels)
@@ -47,19 +50,20 @@ load_dotenv()
 # Constants
 AGENT_NAME = "Ticket Agent"
 PORT_ENV_VAR = "TICKET_AGENT_PORT"
-PORT = os.environ.get(PORT_ENV_VAR)
+PORT_DEFAULT = "10000"
+PORT = os.environ.get(PORT_ENV_VAR, PORT_DEFAULT)
 USE_PLATFORM = os.environ.get("USE_PLATFORM", "false").lower() not in ["0", "false", "off"]
 PLATFORM_URL = os.environ.get("PLATFORM_URL", "http://127.0.0.1:8333")
 PROVIDER_ID = os.getenv("PROVIDER_ID")
 MODEL_ID = os.getenv("MODEL_ID")
-MODEL_NAME = ":".join([PROVIDER_ID, MODEL_ID])
+MODEL_NAME = ":".join([PROVIDER_ID, MODEL_ID]) if PROVIDER_ID and MODEL_ID else None
 
 # Keep a map of the triager and responder which will be discovered using the
 # BeeAI Platform or using ports configured for individual local servers.
 REMOTE_AGENTS = [TICKET_RESPONSE_AGENT, TICKET_TRIAGE_AGENT]  # The 2 remote agents to be found
 AGENT_PORTS = [  # Configured local ports to use when not registering with BeeAI Platform
-    (TICKET_TRIAGE_AGENT, TICKET_TRIAGE_PORT_ENV_VAR),
-    (TICKET_RESPONSE_AGENT, TICKET_RESPONSE_PORT_ENV_VAR),
+    (TICKET_TRIAGE_AGENT, TICKET_TRIAGE_PORT_ENV_VAR, TICKET_TRIAGE_PORT_DEFAULT),
+    (TICKET_RESPONSE_AGENT, TICKET_RESPONSE_PORT_ENV_VAR, TICKET_RESPONSE_PORT_DEFAULT),
 ]
 AGENTS: Dict[str, BeeAIPlatformAgent | A2AAgent] = {}
 
@@ -87,10 +91,10 @@ async def find_agents():
 
 
     # Fill in any missing remote ticket agents with local A2AAgent runnables
-    for name, env_var in AGENT_PORTS:
+    for name, env_var, default in AGENT_PORTS:
         if name not in AGENTS:
             print(f"Attempting to use configured local ports for remote agent '{name}'")
-            port = os.environ.get(env_var)
+            port = os.environ.get(env_var, default)
             if port is None:
                 raise Exception(f"{env_var} must be set in .env")
             url = f"http://127.0.0.1:{port}"
@@ -151,6 +155,14 @@ async def ticket_triage_tool(text: str) -> [AgentMessage]:
 )
 async def ticket_agent(input: Message) -> dict[str, Any]:
 
+    global MODEL_NAME
+    if not MODEL_NAME:
+        system_config = await SystemConfiguration.get()
+        model_from_platform = system_config.default_llm_model
+        if model_from_platform:
+            print("USING MODEL FROM PLATFORM: ", model_from_platform)
+            MODEL_NAME = model_from_platform
+
     response_agent = RequirementAgent(
         llm=ChatModel.from_name(MODEL_NAME),
         tools=[ticket_response_tool],
@@ -191,13 +203,14 @@ async def ticket_agent(input: Message) -> dict[str, Any]:
         name="MainAgent",
         llm=ChatModel.from_name(MODEL_NAME),
         tools=[
-            # ThinkTool(),
+            ThinkTool(),
             triage_handoff_tool,
             response_handoff_tool,
         ],
         requirements=[
-            ConditionalRequirement(triage_handoff_tool, force_at_step=1, min_invocations=1),
-            ConditionalRequirement(response_handoff_tool, force_after=triage_handoff_tool, min_invocations=1),
+            ConditionalRequirement(ThinkTool, consecutive_allowed=False, force_at_step=1),
+            ConditionalRequirement(triage_handoff_tool, only_after=ThinkTool, min_invocations=1),
+            ConditionalRequirement(response_handoff_tool, only_after=triage_handoff_tool, min_invocations=1),
         ],
         # Log all tool calls to the console for easier debugging
         # middlewares=[GlobalTrajectoryMiddleware(included=[Tool])],
@@ -214,7 +227,7 @@ async def ticket_agent(input: Message) -> dict[str, Any]:
     )
 
     result = await main_agent.run(
-        prompt=input.model_dump_json(),
+        input.model_dump_json(),
         expected_output="Helpful and clear response.")
 
     return result.answer.text
