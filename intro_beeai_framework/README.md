@@ -19,6 +19,7 @@ Put links to docs here.
 * For the colab/jupyter setup:
     * Colab is easy
     * TODO: jupyter install notes
+        * `uv run --with jupyter jupyter lab`
 
 * BeeAI Platform install, setup, start
 
