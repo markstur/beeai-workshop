@@ -2,12 +2,17 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # # Welcome to the BeeAI Framework Workshop 🐝
-# 
-
+#
 # 🎯 Scenario: The Field Marketing Lead has asked you to help prepare their team for conference season. You create a Conference Prep Agent that uses 3 tools: web search to collect relevant news and search for up to date information, Wikipedia to provide company history and details, and the team's internal notes and artifacts.
 
 # 📚 What You'll Learn
 # 
+# - BeeAI Platform -
+# - BeeAI Framework - see the notebook first and then use this for platform auto-registration
+# - A2A - BeeAI SDK makes it easy to work with A2A
+# - Forms - BeeAI Platform makes it easy to create input forms for the UI
+
+# ...
 # - System Prompts - The foundation of agent behavior
 # - RequirementAgent - BeeAI's powerful agent implementation that provides control over agent behavior
 # - LLM Providers - Local and hosted model options
@@ -23,171 +28,139 @@
 # - getting the "internal documents"
 
 
+# System
+import asyncio
+from datetime import date
+import os
 import sys
-import json
 from typing import Annotated
 
-from beeai_sdk.server import Server
-from beeai_sdk.a2a.extensions import AgentDetail
+# Third party
 from a2a.types import AgentCapabilities
-from beeai_sdk.a2a.types import Message, AgentMessage
-from a2a.types import Message as A2AMessage
-
-# BeeAI SDK imports
-import beeai_sdk.a2a.extensions
-from beeai_sdk.a2a.extensions.ui.form import (
-    DateField,
-    TextField,
-    FileField,
-    CheckboxField,
-    MultiSelectField,
-    OptionItem,
-    FormExtensionServer,
-    FormExtensionSpec,
-    FormRender,
-)
-from beeai_sdk.platform.configuration import SystemConfiguration
-
-import os
-import asyncio
-import time
-import phoenix as px
-from typing import Any
-from datetime import date
-from pydantic import BaseModel, Field
 from dotenv import load_dotenv
-from langchain_community.tools import WikipediaQueryRun
-from langchain_community.utilities import WikipediaAPIWrapper
-from beeai_framework.agents.experimental import RequirementAgent
-from beeai_framework.agents.experimental.types import RequirementAgentOutput
-from beeai_framework.agents.experimental.requirements import Requirement, Rule
-from beeai_framework.agents.experimental.requirements.conditional import ConditionalRequirement
-from beeai_framework.backend import ChatModel, ChatModelParameters
-from beeai_framework.backend.document_loader import DocumentLoader
-from beeai_framework.backend.embedding import EmbeddingModel
-from beeai_framework.backend.text_splitter import TextSplitter
-from beeai_framework.backend.vector_store import VectorStore
-from beeai_framework.context import RunContext
-from beeai_framework.emitter.emitter import Emitter, EventMeta
-from beeai_framework.emitter.types import EmitterOptions
-from beeai_framework.memory import UnconstrainedMemory
-from beeai_framework.middleware.trajectory import GlobalTrajectoryMiddleware
-from beeai_framework.tools import StringToolOutput, Tool, tool
-from beeai_framework.tools.search.duckduckgo import DuckDuckGoSearchTool
-from beeai_framework.tools.search.retrieval import VectorStoreSearchTool
-from beeai_framework.tools.think import ThinkTool
-from beeai_framework.tools.weather import OpenMeteoTool
-from beeai_framework.tools.types import ToolRunOptions
 from openinference.instrumentation.beeai import BeeAIInstrumentor
 from opentelemetry import trace as trace_api
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
 from opentelemetry.sdk import trace as trace_sdk
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace.export import SimpleSpanProcessor
+
+# BeeAI Framework imports
+from beeai_framework.agents.experimental import RequirementAgent
+from beeai_framework.agents.experimental.requirements.conditional import ConditionalRequirement
+from beeai_framework.backend import ChatModel, ChatModelParameters
+from beeai_framework.backend.document_loader import DocumentLoader
+from beeai_framework.backend.embedding import EmbeddingModel
+from beeai_framework.backend.text_splitter import TextSplitter
+from beeai_framework.backend.vector_store import VectorStore
 from beeai_framework.memory import SummarizeMemory
+from beeai_framework.middleware.trajectory import GlobalTrajectoryMiddleware
+from beeai_framework.tools import Tool, tool
+from beeai_framework.tools.search.duckduckgo import DuckDuckGoSearchTool
+from beeai_framework.tools.search.retrieval import VectorStoreSearchTool
+from beeai_framework.tools.search.wikipedia import WikipediaTool, WikipediaToolInput
+from beeai_framework.tools.think import ThinkTool
+
+# BeeAI SDK imports
+from beeai_sdk.a2a.extensions import AgentDetail, AgentDetailExtensionSpec
+from beeai_sdk.a2a.extensions.ui import form
+from beeai_sdk.a2a.types import Message, AgentMessage
+from beeai_sdk.platform.configuration import SystemConfiguration
+from beeai_sdk.server import Server
+
+# Constants
+AGENT_NAME = "Conference planner"
 
 # Read .env and set environment variables
 load_dotenv()
 
+#  ## 1️⃣ LLM Providers: Choose Your AI Engine
+
+# BeeAI Framework supports 10+ LLM providers including Ollama, Groq, OpenAI, Watsonx.ai, and more, giving you flexibility to choose local or hosted models based on your needs. In this workshop we'll be working Ollama, so you will be running the model locally. You can find the documentation on how to connect to other providers [here](https://framework.beeai.dev/modules/backend).
+# ### *❗* Exercise: Select your Language Model Provider
+# Change the `PROVIDER_ID` and `MODEL_ID` in your .env file. If you select a provider that requires an API key, please replace the placeholder with your `api_key`.
+# Try several models to see how your agent performs. Note that you may need to modify the system prompt for each model, as they all have their own system prompt best practice.
+
+PROVIDER_ID = os.getenv("PROVIDER_ID")
+MODEL_ID = os.getenv("MODEL_ID")
+MODEL_NAME = ":".join([PROVIDER_ID, MODEL_ID]) if PROVIDER_ID and MODEL_ID else None
+
+# Load the chat model
+llm = ChatModel.from_name(MODEL_NAME, ChatModelParameters(temperature=1))
+
+# Load the embedding model
+# TODO: this should be configurable in the .env too
+embedding_model = EmbeddingModel.from_name("ollama:nomic-embed-text")
+
 # Create the A2A Server
 server = Server()
 
-AGENT_NAME = "Conference planner"
+# Set up the input form
+query = form.TextField(type="text", id="query", label="query", required=True, col_span=2)
+customer_name = form.TextField(type="text", id="customer_name", label="Customer name", col_span=1)
+account_id = form.TextField(type="text", id="account_id", label="Account ID", col_span=1)
+product = form.TextField(type="text", id="product", label="Product", col_span=2)
+incident_date = form.DateField(type="date", id="incident_date", label="Incident date", col_span=1)
 
-agent_detail_extension_spec = beeai_sdk.a2a.extensions.AgentDetailExtensionSpec(
-    params=beeai_sdk.a2a.extensions.AgentDetail(
-        interaction_mode="multi-turn",
-    )
-)
-
-issue_summary = TextField(type="text", id="issue_summary", label="Issue summary", required=True, col_span=2)
-customer_name = TextField(type="text", id="customer_name", label="Customer name", required=True, col_span=1)
-account_id = TextField(type="text", id="account_id", label="Account ID", required=True, col_span=1)
-product = TextField(type="text", id="product", label="Product", required=True, col_span=2)
-incident_date = DateField(type="date", id="incident_date", label="Incident date", required=False, col_span=1)
-
-severity = MultiSelectField(
+severity = form.MultiSelectField(
     type="multiselect",
     id="severity",
     label="Severity",
     required=False,
     col_span=1,
     options=[
-        OptionItem(id="critical", label="critical"),
-        OptionItem(id="high", label="high"),
-        OptionItem(id="medium", label="medium"),
-        OptionItem(id="low", label="low"),
+        form.OptionItem(id="critical", label="critical"),
+        form.OptionItem(id="high", label="high"),
+        form.OptionItem(id="medium", label="medium"),
+        form.OptionItem(id="low", label="low"),
     ],
     default_value=["medium"],
 )
 
-sentiment = MultiSelectField(
+sentiment = form.MultiSelectField(
     type="multiselect",
     id="sentiment",
     label="Sentiment",
     required=False,
     col_span=1,
     options=[
-        OptionItem(id="negative", label="negative"),
-        OptionItem(id="neutral", label="neutral"),
-        OptionItem(id="positive", label="positive"),
+        form.OptionItem(id="negative", label="negative"),
+        form.OptionItem(id="neutral", label="neutral"),
+        form.OptionItem(id="positive", label="positive"),
     ],
     default_value=["neutral"],
 )
 
-category = MultiSelectField(
+category = form.MultiSelectField(
     type="multiselect",
     id="category",
     label="Category",
     required=False,
     col_span=2,
     options=[
-        OptionItem(id="billing", label="billing"),
-        OptionItem(id="technical", label="technical"),
-        OptionItem(id="complaint", label="complaint"),
-        OptionItem(id="account", label="account"),
-        OptionItem(id="feedback", label="feedback"),
-        OptionItem(id="other", label="other"),
+        form.OptionItem(id="billing", label="billing"),
+        form.OptionItem(id="technical", label="technical"),
+        form.OptionItem(id="complaint", label="complaint"),
+        form.OptionItem(id="account", label="account"),
+        form.OptionItem(id="feedback", label="feedback"),
+        form.OptionItem(id="other", label="other"),
     ],
 )
-notes = FileField(type="file", id="notes", label="Upload notes", accept=["text/*"], required=False, col_span=2)
+notes = form.FileField(type="file", id="notes", label="Upload notes", accept=["text/*"], required=False, col_span=2)
 
-form_render = FormRender(
+form_render = form.FormRender(
     id="ticket_form",
     title="Ticket Details",
     columns=2,
     fields=[
-        issue_summary,
+        query,
         category,
         customer_name, account_id,
         severity, sentiment,
         product, incident_date
     ],
 )
-form_extension_spec = FormExtensionSpec(form_render)
-
-
-#  ## 1️⃣ LLM Providers: Choose Your AI Engine
-
-# BeeAI Framework supports 10+ LLM providers including Ollama, Groq, OpenAI, Watsonx.ai, and more, giving you flexibility to choose local or hosted models based on your needs. In this workshop we'll be working Ollama, so you will be running the model locally. You can find the documentation on how to connect to other providers [here](https://framework.beeai.dev/modules/backend).
-# 
-
-# ###*❗* Exercise: Select your Language Model Provider
-# 
-# Change the `provider` and `model` variable to your desired provider and model. If you select a provider that requires an API key, please replace the placeholders with your `api_key`.
-# 
-# Try several models to see how your agent performs. Note that you may need to modify the system prompt for each model, as they all have their own system prompt best practice.
-
-# In[5]:
-
-
-PROVIDER_ID = os.getenv("PROVIDER_ID")
-MODEL_ID = os.getenv("MODEL_ID")
-MODEL_NAME = ":".join([PROVIDER_ID, MODEL_ID]) if PROVIDER_ID and MODEL_ID else None
-# provider="ollama"
-# model="granite3.3"
-
-llm=ChatModel.from_name(MODEL_NAME, ChatModelParameters(temperature=1))
+form_extension_spec = form.FormExtensionSpec(form_render)
 
 
 # ## 2️⃣ Understanding System Prompts: The Agent's Foundation
@@ -206,14 +179,14 @@ llm=ChatModel.from_name(MODEL_NAME, ChatModelParameters(temperature=1))
 # ###*❗* Exercise: Customize Your System Prompt
 # Try modifying the system prompt. Customize the "basic rules" section to add your own. Note that changes to the system prompt will affect the performance of the model. Creating a great `System Prompt` is an art, not a science.
 
-instruct_prompt = """You help field marketing teams prep for conferences by answering questions on companies that they need to prepare to talk to. You produce quick and actionable briefs, doing your best to anwer the user's question.
+todays_date = date.today().strftime("%B %d, %Y")
+instruct_prompt = f"""You help field marketing teams prep for conferences by answering questions on companies that they need to prepare to talk to. You produce quick and actionable briefs, doing your best to anwer the user's question.
 
 Today's date is {todays_date}.
 
 Tools:
 - ThinkTool: Helps you plan and reason before you act. Use this tool when you need to think.
 - DuckDuckGoSearchTool: Use this tool to collect current information on agendas, speakers, news, competitor moves. Include title + date + link to the resources you find in your answer. Do not use this tool for internal notes or artifacts.
-- OpenMeteoTool: Use this tool to get current weather.
 - wikipedia_tool: Use this tool to get company/org history (not for breaking news). Only look up company names as the input.
 - internal_document_search: past meetings, playbooks, artifacts. If you use information from this in yoour response, label it as as [Internal]. Always use this tool when internal notes or content is references.
 
@@ -222,12 +195,6 @@ Basic Rules:
 - Favor recent info (agenda/news ≤30 days; exec changes/funding ≤180 days); flag older items.
 - If you don't know, say so. Don't make things up.
 """
-
-
-
-todays_date = date.today().strftime("%B %d, %Y")
-formatted_instruct_prompt = instruct_prompt.format(
-        todays_date=todays_date)
 
 
 # ## 4️⃣ Tools: Enabling LLMs to Take Action
@@ -246,54 +213,35 @@ formatted_instruct_prompt = instruct_prompt.format(
 # ### Adding Framework Provided Tools
 
 # The **Think tool** encourages a Re-Act pattern where the agent reasons and plans before calling a tool.
-# 
-
-
-from beeai_framework.tools.think import ThinkTool
-
 think_tool = ThinkTool()
 
-
 # The **DuckDuckGoSearchTool** is a Web Search tool that provides relevant data from the internet to the LLM
-# 
-
-
-from beeai_framework.tools.search.duckduckgo import DuckDuckGoSearchTool
-
 search_tool = DuckDuckGoSearchTool()
 
-
 # ### Adding Custom Tools
-# 
 
 # There are 2 ways to provide custom tools to your agent. For simple tools you can use the `@tool` decorator above the function. For more complex tools, you can extend the `Tool Class` and customize things such as the run time and tool execution.  
-
 # We will create a simple custom tool with the `@tool` decorator. Our tool must have a doc string, so that the agent understands when and how it should use that tool. The tool name will defualt to the function name.
-# 
 # To learn more about advanced tool customization, take a look at this section in the [documentation](https://framework.beeai.dev/modules/tools#advanced-custom-tool).
 
 
-from beeai_framework.tools.search.wikipedia import WikipediaTool, WikipediaToolInput
-
 @tool
 async def wikipedia_tool(query: str) -> str:
-  """
-  Search factual and historical information, including biography, history, politics, geography, society, culture,
-  science, technology, people, animal species, mathematics, and other subjects.
+    """
+    Search factual and historical information, including biography, history, politics, geography, society, culture,
+    science, technology, people, animal species, mathematics, and other subjects.
 
-  Args:
-      query: The topic or question to search for on Wikipedia.
+    Args:
+        query: The topic or question to search for on Wikipedia.
 
-  Returns:
-      The information found via searching Wikipedia.
-  """
-  full_text = False
-  language = "en"
-  tool = WikipediaTool(language=language)
-  response = await tool.run(WikipediaToolInput(query=query, full_text=full_text))
-  return response.get_text_content()
-
-
+    Returns:
+        The information found via searching Wikipedia.
+    """
+    full_text = False
+    language = "en"
+    tool = WikipediaTool(language=language)
+    response = await tool.run(input=WikipediaToolInput(query=query, full_text=full_text))
+    return response.get_text_content()
 
 
 # ## 5️⃣ Creating a RAG (Retrieval Augmented Generation) Tool to Search Internal Documents
@@ -318,21 +266,10 @@ async def wikipedia_tool(query: str) -> str:
 # 
 
 
-embedding_model = EmbeddingModel.from_name("ollama:nomic-embed-text")
-
-
 async def get_vector_store():
-    global file, content, loader, documents, e, vector_store
     # ### *❗* Exercise: Internal documents
-    # Take a look at the internal documents so you know what type of questions to ask your agent
+    # Take a look at the internal documents, so you know what type of questions to ask your agent
     #
-    # In[20]:
-    # Read the synthetic data from the public github repo
-    # get_ipython().system('mkdir -p content')
-    # get_ipython().system('curl -o content/rag_conference_prep_agent.txt -L0 https://raw.githubusercontent.com/IBM/beeai-workshop/refs/heads/main/intro_beeai_framework/rag_conference_prep_agent.txt')
-    with open('rag_conference_prep_agent.txt', 'r') as file:
-        content = file.read()
-    print(content)
     # Load the document using the `DocumentLoader` and split the document into chunks using the `text_splitter`.
     loader = DocumentLoader.from_name(
         name="langchain:UnstructuredMarkdownLoader", file_path="rag_conference_prep_agent.txt"
@@ -348,6 +285,7 @@ async def get_vector_store():
     )
     documents = await text_splitter.split_documents(documents)
     print(f"Loaded {len(documents)} document chunks")
+
     # Create the `TemporalVectorStore`, which means this vector store also tracks time.
     # Create vector store and add documents
     vector_store = VectorStore.from_name(name="beeai:TemporalVectorStore", embedding_model=embedding_model)
@@ -359,13 +297,9 @@ async def get_vector_store():
 # ## 6️⃣ Conditional Requirements: Guiding Agent Behavior
 # 
 
-
 # ## Explore Observability: See what is happening under the hood
 
 # Create the function that sets up observability using `OpenTelemetry` and [Arize's Phoenix Platform](https://arize.com/docs/phoenix/inferences/how-to-inferences/manage-the-app). There a several ways to view what is happening under the hood of your agent. View the observability documentation [here](https://framework.beeai.dev/modules/observability).
-
-# In[28]:
-
 
 def setup_observability(endpoint: str = "http://localhost:6006/v1/traces") -> None:
     """
@@ -388,6 +322,13 @@ setup_observability("http://localhost:6006/v1/traces")
 # This is the part we've been working towards! Let's assemble the agent with all the parts we created.
 
 # Add the server decorator with the agent detail + capabilities as required by A2A
+agent_detail_extension_spec = AgentDetailExtensionSpec(
+    params=AgentDetail(
+        interaction_mode="multi-turn",
+    )
+)
+
+
 @server.agent(
     name=AGENT_NAME,
     detail=AgentDetail(
@@ -409,15 +350,7 @@ setup_observability("http://localhost:6006/v1/traces")
 )
 # Create the function for the BeeAI Agent
 async def agent(question: Message,
-                form: Annotated[FormExtensionServer, form_extension_spec]) -> str:
-
-    global MODEL_NAME
-    if not MODEL_NAME:
-        system_config = await SystemConfiguration.get()
-        model_from_platform = system_config.default_llm_model
-        if model_from_platform:
-            print("USING MODEL FROM PLATFORM: ", model_from_platform)
-            MODEL_NAME = model_from_platform
+                form: Annotated[form.FormExtensionServer, form_extension_spec]) -> str:
 
     memory = SummarizeMemory(llm)
 
@@ -469,10 +402,10 @@ async def agent(question: Message,
         # Message from CLI
         query = question.text
 
-    response = await requirement_agent.run(query, max_retries_per_step=3, total_max_retries=25)
+    response = await requirement_agent.run(query, max_retries_per_step=3, total_max_retries=15)
     answer = response.last_message.text
 
-    print("QUESTION: ", question)
+    print("QUESTION: ", query)
     print("ANSWER: ", answer)
     return answer
 
@@ -488,10 +421,6 @@ async def agent(question: Message,
 # 
 # - Build a security talking sheet for Siemens Energy. How does their strategy compare to their competitors'?
 
-
-question = "I'm planning on meeting the Moderna rep at the next conference. Give me a one pager and remind me where we left off on previous internal discussions."
-
-
 # Run the agent with specific execution settings.
 
 # ### *❗* Exercise: Test Your Agent
@@ -500,9 +429,7 @@ question = "I'm planning on meeting the Moderna rep at the next conference. Give
 async def cli_agent(question: str):
     """Run an async agent with a question, await and return the result"""
 
-    response = await agent(AgentMessage(text=question), form=FormExtensionServer(form_extension_spec))
-    print(response.last_message.text)
-    return response
+    return await agent(AgentMessage(text=question), form=form.FormExtensionServer(form_extension_spec))
 
 
 def serve():
@@ -519,10 +446,10 @@ def serve():
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         print(f"RUNNING '{AGENT_NAME}' CLI:")
-        print(f"INPUT TO '{AGENT_NAME}': {sys.argv[1]}")
+        # print(f"INPUT TO '{AGENT_NAME}': {sys.argv[1]}")
         agent_response = asyncio.run(cli_agent(sys.argv[1]))
-        print(f"OUTPUT FROM '{AGENT_NAME}':")
-        pprint.pprint(json.loads(agent_response), indent=4)
+        # print(f"OUTPUT FROM '{AGENT_NAME}':")
+        # print(agent_response)
     else:
         print(f"SERVING '{AGENT_NAME}'")
         serve()
